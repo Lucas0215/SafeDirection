@@ -28,9 +28,12 @@ public class SafeAStarSearch {
     			if(!frontier.contains(u) && !explored.contains(u.getId())) {
     				// 큐에서도 업데이트가 제대로 될까?
     				u.updateCost(v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endV), v.getId());
+    				frontier.add(u);
     			}
     			else if(frontier.contains(u) && u.getCost() > v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endV)) {
     				u.updateCost(v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endV), v.getId());
+    				frontier.remove(u);
+    				frontier.add(u);
     			}
     		}
     	}
