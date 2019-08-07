@@ -148,4 +148,15 @@ public class MapGraph {
 		}
 		return Double.MAX_VALUE;
 	}
+	
+	public List<MapVertex> constructPath(String endId) {
+		List<MapVertex> path = new ArrayList<>();
+		MapVertex v = findVertexById(endId);
+		path.add(v);
+		while(v.predecessor!=null) {
+			v = findVertexById(v.predecessor);
+			path.add(v);
+		}
+		return path;
+	}
 }

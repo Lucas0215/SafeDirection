@@ -8,30 +8,31 @@ public class SafeAStarSearch {
     
     private List<String> explored = new ArrayList<>();
     
-    public void AStarSearch(String startId, String endId) {
+    public List<MapGraph.MapVertex> AStarSearch(String startId, String endId) {
     	
     	MapGraph.MapVertex v = mg.findVertexById(startId);
-    	MapGraph.MapVertex endV = mg.findVertexById(endId);
+    	MapGraph.MapVertex endv = mg.findVertexById(endId);
     	
-    	v.updateCost(mg.getDistance(v, endV), null);
+    	v.updateCost(mg.getDistance(v, endv), null);
     	frontier.add(v);
     	
     	while(true) {
     		
-    		if(frontier.isEmpty()) return;
+    		if(frontier.isEmpty()) return null;
     		
     		v = frontier.remove();
-    		if(v.getId().equals(endId)) return;
+    		if(v.getId().equals(endId)) {
+    			return mg.constructPath(endId);
+    		}
     		explored.add(v.getId());
     		
     		for(MapGraph.MapVertex u : v.getNeighbors()) {
     			if(!frontier.contains(u) && !explored.contains(u.getId())) {
-    				// 큐에서도 업데이트가 제대로 될까?
-    				u.updateCost(v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endV), v.getId());
+    				u.updateCost(v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endv), v.getId());
     				frontier.add(u);
     			}
-    			else if(frontier.contains(u) && u.getCost() > v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endV)) {
-    				u.updateCost(v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endV), v.getId());
+    			else if(frontier.contains(u) && u.getCost() > v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endv)) {
+    				u.updateCost(v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endv), v.getId());
     				frontier.remove(u);
     				frontier.add(u);
     			}
