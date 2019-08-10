@@ -13,6 +13,8 @@ public class SafeAStarSearch {
     	MapGraph.MapVertex v = mg.findVertexById(startId);
     	MapGraph.MapVertex endv = mg.findVertexById(endId);
     	
+    	mg.initCosts();
+    	
     	v.updateCost(mg.getDistance(v, endv), null);
     	frontier.add(v);
     	

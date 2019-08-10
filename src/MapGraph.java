@@ -24,6 +24,25 @@ public class MapGraph {
 			this.predecessor = newPredecessor;
 		}
 
+		public String getId() {
+			return this.id;
+		}
+		
+		public double getCost() {
+			return this.cost;
+		}
+		
+		public Set<MapVertex> getNeighbors() {
+			Set<MapVertex> neighbors = new HashSet<>();
+			for(MapEdge e : edges) {
+				MapVertex anotherV = e.getAnotherVertex(this);
+				if(anotherV != null) {
+					neighbors.add(anotherV);
+				}
+			}
+			return neighbors;
+		}
+		
 		@Override
 		public boolean equals(Object o) {
 			if (o instanceof MapVertex) {
@@ -45,27 +64,9 @@ public class MapGraph {
 				else
 					return 0;
 			}
-			return 0;
+			return 1;
 		}
 
-		public String getId() {
-			return this.id;
-		}
-		
-		public double getCost() {
-			return this.cost;
-		}
-		
-		public Set<MapVertex> getNeighbors() {
-			Set<MapVertex> neighbors = new HashSet<>();
-			for(MapEdge e : edges) {
-				MapVertex anotherV = e.getAnotherVertex(this);
-				if(anotherV != null) {
-					neighbors.add(anotherV);
-				}
-			}
-			return neighbors;
-		}
 	}
 	
 	class MapEdge {
@@ -101,7 +102,7 @@ public class MapGraph {
 		
 		public MapVertex getAnotherVertex(MapVertex v) {
 			if(this.adjacentNodes[0].equals(v.getId())) return findVertexById(adjacentNodes[1]);
-			if(this.adjacentNodes[1].equals(v.getId())) return findVertexById(adjacentNodes[0]);
+			else if(this.adjacentNodes[1].equals(v.getId())) return findVertexById(adjacentNodes[0]);
 			else return null;
 		}
 	}
@@ -117,10 +118,17 @@ public class MapGraph {
 			int averageIllum, int convStoreNum, double userScore) {
 		edges.add(new MapEdge(id, adjacentNodes, length, cctvNum, averageWidth, averageIllum, convStoreNum, userScore));
 	}
+	
+	public void initCosts() {
+		for(MapVertex v : vertices) {
+			v.predecessor = null;
+			v.cost = Double.MAX_VALUE;
+		}
+	}
 
 	public MapVertex findVertexById(String id) {
 		for(MapVertex v : vertices) {
-			if(v.id.contentEquals(id)) {
+			if(v.id.equals(id)) {
 				return v;
 			}
 		}
@@ -142,8 +150,8 @@ public class MapGraph {
 	
 	public double getEdgeCost(MapVertex v, MapVertex u) {
 		for(MapEdge e : edges) {
-			if(e.adjacentNodes[0].equals(v) && e.adjacentNodes[1].equals(u) ||
-					e.adjacentNodes[0].equals(u) && e.adjacentNodes[1].equals(v))
+			if(findVertexById(e.adjacentNodes[0]).equals(v) && findVertexById(e.adjacentNodes[1]).equals(u) ||
+					findVertexById(e.adjacentNodes[0]).equals(u) && findVertexById(e.adjacentNodes[1]).equals(v))
 				return e.getCost();
 		}
 		return Double.MAX_VALUE;
