@@ -2,7 +2,7 @@ import java.util.*;
 
 public class SafeAStarSearch {
 	
-	MapGraph mg = new MapGraph();
+	private MapGraph mg = new MapGraph();
 	
 	private Queue<MapGraph.MapVertex> frontier = new PriorityQueue<>();
     
@@ -10,19 +10,19 @@ public class SafeAStarSearch {
     
     public List<MapGraph.MapVertex> AStarSearch(String startId, String endId) {
     	
-    	MapGraph.MapVertex v = mg.findVertexById(startId);
+    	MapGraph.MapVertex startv = mg.findVertexById(startId);
     	MapGraph.MapVertex endv = mg.findVertexById(endId);
     	
     	mg.initCosts();
     	
-    	v.updateCost(mg.getDistance(v, endv), null);
-    	frontier.add(v);
+    	startv.updateCost(mg.getDistance(startv, endv), null);
+    	frontier.add(startv);
     	
     	while(true) {
     		
     		if(frontier.isEmpty()) return null;
     		
-    		v = frontier.remove();
+    		MapGraph.MapVertex v = frontier.remove();
     		if(v.getId().equals(endId)) {
     			return mg.constructPath(endId);
     		}
@@ -43,8 +43,12 @@ public class SafeAStarSearch {
     }
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		SafeAStarSearch sas = new SafeAStarSearch();
+		List<MapGraph.MapVertex> path = sas.AStarSearch("55", "52");
+		System.out.println("°æ·Î");
+		for(MapGraph.MapVertex v : path) {
+			v.printVertex();
+		}
 	}
 
 }

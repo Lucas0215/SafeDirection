@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<?xml version="1.0" encoding="euc-kr"?>
 <map>
 	<nodeSet>
 		<node id="1">
@@ -26,13 +26,13 @@
 			<type />
 		</node>
 		<node id="5">
-			<name>놀부부대찌개&철판구이고대점</name>
+			<name>철판구이고대점</name>
 			<x>227</x>
 			<y>217</y>
 			<type />
 		</node>
 		<node id="6">
-			<name>놀부부대찌개&철판구이고대점앞</name>
+			<name>철판구이고대점앞</name>
 			<x>257</x>
 			<y>217</y>
 			<type />
@@ -327,6 +327,12 @@
 		</node>
 		<node id="56">
 			<name>교차로23</name>
+			<x>228</x>
+			<y>736</y>
+			<type />
+		</node>
+		<node id="57">
+			<name>교차로24</name>
 			<x>275</x>
 			<y>724</y>
 			<type />
@@ -334,536 +340,536 @@
 	</nodeSet>
 	<edgeSet>
 		<edge>
-			<node name="40" />
-			<node name="33" />
+			<node id="40" />
+			<node id="33" />
 			<length>151</length>
 			<width>6</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="33" />
-			<node name="34" />
+			<node id="33" />
+			<node id="34" />
 			<length>19</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="34" />
-			<node name="35" />
+			<node id="34" />
+			<node id="35" />
 			<length>30</length>
 			<width>6</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="35" />
-			<node name="36" />
+			<node id="35" />
+			<node id="36" />
 			<length>30</length>
 			<width>6</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="36" />
-			<node name="38" />
+			<node id="36" />
+			<node id="38" />
 			<length>81</length>
 			<width>4</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="38" />
-			<node name="39" />
+			<node id="38" />
+			<node id="39" />
 			<length>60</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="39" />
-			<node name="44" />
+			<node id="39" />
+			<node id="44" />
 			<length>31</length>
 			<width>6</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="44" />
-			<node name="46" />
+			<node id="44" />
+			<node id="46" />
 			<length>51</length>
 			<width>7</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="46" />
-			<node name="48" />
+			<node id="46" />
+			<node id="48" />
 			<length>13</length>
 			<width>	26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="46" />
-			<node name="14" />
+			<node id="46" />
+			<node id="14" />
 			<length>15</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="48" />
-			<node name="49" />
+			<node id="48" />
+			<node id="49" />
 			<length>26</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="49" />
-			<node name="18" />
+			<node id="49" />
+			<node id="18" />
 			<length>24</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="49" />
-			<node name="20" />
+			<node id="49" />
+			<node id="20" />
 			<length>30</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="20" />
-			<node name="24" />
+			<node id="20" />
+			<node id="24" />
 			<length>38</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="48" />
-			<node name="50" />
+			<node id="48" />
+			<node id="50" />
 			<length>10</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="50" />
-			<node name="54" />
+			<node id="50" />
+			<node id="54" />
 			<length>44</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="54" />
-			<node name="26" />
+			<node id="54" />
+			<node id="26" />
 			<length>46</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="26" />
-			<node name="57" />
+			<node id="26" />
+			<node id="57" />
 			<length>29</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="57" />
-			<node name="56" />
+			<node id="57" />
+			<node id="56" />
 			<length>15</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="56" />
-			<node name="32" />
+			<node id="56" />
+			<node id="32" />
 			<length>29</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="56" />
-			<node name="55" />
+			<node id="56" />
+			<node id="55" />
 			<length>57</length>
 			<width>4</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="55" />
-			<node name="30" />
+			<node id="55" />
+			<node id="30" />
 			<length>26</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="55" />
-			<node name="22" />
+			<node id="55" />
+			<node id="22" />
 			<length>14</length>
 			<width>8</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="22" />
-			<node name="51" />
+			<node id="22" />
+			<node id="51" />
 			<length>14</length>
 			<width>8</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="51" />
-			<node name="40" />
+			<node id="51" />
+			<node id="40" />
 			<length>77</length>
 			<width>6</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="33" />
-			<node name="2" />
+			<node id="33" />
+			<node id="2" />
 			<length>36</length>
 			<width>12</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="2" />
-			<node name="4" />
+			<node id="2" />
+			<node id="4" />
 			<length>22</length>
 			<width>12</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="4" />
-			<node name="6" />
+			<node id="4" />
+			<node id="6" />
 			<length>15</length>
 			<width>12</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="6" />
-			<node name="41" />
+			<node id="6" />
+			<node id="41" />
 			<length>33</length>
 			<width>12</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="40" />
-			<node name="41" />
+			<node id="40" />
+			<node id="41" />
 			<length>48</length>
 			<width>7</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="34" />
-			<node name="42" />
+			<node id="34" />
+			<node id="42" />
 			<length>103</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="35" />
-			<node name="43" />
+			<node id="35" />
+			<node id="43" />
 			<length>102</length>
 			<width>6</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="41" />
-			<node name="42" />
+			<node id="41" />
+			<node id="42" />
 			<length>20</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="42" />
-			<node name="12" />
+			<node id="42" />
+			<node id="12" />
 			<length>8</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="12" />
-			<node name="43" />
+			<node id="12" />
+			<node id="43" />
 			<length>22</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="43" />
-			<node name="44" />
+			<node id="43" />
+			<node id="44" />
 			<length>18</length>
 			<width>8</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="39" />
-			<node name="37" />
+			<node id="39" />
+			<node id="37" />
 			<length>54</length>
 			<width>4</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="37" />
-			<node name="8" />
+			<node id="37" />
+			<node id="8" />
 			<length>10</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="8" />
-			<node name="36" />
+			<node id="8" />
+			<node id="36" />
 			<length>16</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="37" />
-			<node name="10" />
+			<node id="37" />
+			<node id="10" />
 			<length>17</length>
 			<width>4</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="10" />
-			<node name="38" />
+			<node id="10" />
+			<node id="38" />
 			<length>22</length>
 			<width>4</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="43" />
-			<node name="16" />
+			<node id="43" />
+			<node id="16" />
 			<length>22</length>
 			<width>6</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="16" />
-			<node name="44" />
+			<node id="16" />
+			<node id="44" />
 			<length>22</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="16" />
-			<node name="47" />
+			<node id="16" />
+			<node id="47" />
 			<length>18</length>
 			<width>7</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="47" />
-			<node name="53" />
+			<node id="47" />
+			<node id="53" />
 			<length>44</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="47" />
-			<node name="50" />
+			<node id="47" />
+			<node id="50" />
 			<length>42</length>
 			<width>4</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="53" />
-			<node name="54" />
+			<node id="53" />
+			<node id="54" />
 			<length>30</length>
 			<width>6</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="53" />
-			<node name="52" />
+			<node id="53" />
+			<node id="52" />
 			<length>29</length>
 			<width>8</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="51" />
-			<node name="52" />
+			<node id="51" />
+			<node id="52" />
 			<length>51</length>
 			<width>8</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="41" />
-			<node name="52" />
+			<node id="41" />
+			<node id="52" />
 			<length>81</length>
 			<width>12</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="52" />
-			<node name="57" />
+			<node id="52" />
+			<node id="57" />
 			<length>54</length>
 			<width>12</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="1" />
-			<node name="2" />
+			<node id="1" />
+			<node id="2" />
 			<length>8</length>
 			<width>12</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="3" />
-			<node name="4" />
+			<node id="3" />
+			<node id="4" />
 			<length>8</length>
 			<width>12</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="5" />
-			<node name="6" />
+			<node id="5" />
+			<node id="6" />
 			<length>10</length>
 			<width>12</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="7" />
-			<node name="8" />
+			<node id="7" />
+			<node id="8" />
 			<length>5</length>
 			<width>5</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="9" />
-			<node name="10" />
+			<node id="9" />
+			<node id="10" />
 			<length>4</length>
 			<width>7</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="11" />
-			<node name="12" />
+			<node id="11" />
+			<node id="12" />
 			<length>6</length>
 			<width>4</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="13" />
-			<node name="14" />
+			<node id="13" />
+			<node id="14" />
 			<length>4</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="15" />
-			<node name="16" />
+			<node id="15" />
+			<node id="16" />
 			<length>7</length>
 			<width>6</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="17" />
-			<node name="18" />
+			<node id="17" />
+			<node id="18" />
 			<length>7</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="19" />
-			<node name="20" />
+			<node id="19" />
+			<node id="20" />
 			<length>7</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="21" />
-			<node name="22" />
+			<node id="21" />
+			<node id="22" />
 			<length>7</length>
 			<width>8</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="23" />
-			<node name="24" />
+			<node id="23" />
+			<node id="24" />
 			<length>10</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="25" />
-			<node name="26" />
+			<node id="25" />
+			<node id="26" />
 			<length>7</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="27" />
-			<node name="28" />
+			<node id="27" />
+			<node id="28" />
 			<length>9</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="29" />
-			<node name="30" />
+			<node id="29" />
+			<node id="30" />
 			<length>4</length>
 			<width>8</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node name="31" />
-			<node name="32" />
+			<node id="31" />
+			<node id="32" />
 			<length>5</length>
 			<width>26</width>
 			<safety />
