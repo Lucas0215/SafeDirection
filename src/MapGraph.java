@@ -32,6 +32,10 @@ public class MapGraph {
 			return this.id;
 		}
 		
+		public String getName() {
+			return this.name;
+		}
+		
 		public int getX() {
 			return this.x;
 		}

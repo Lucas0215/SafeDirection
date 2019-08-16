@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,9 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 public class SafeDirectionGUI extends JFrame {
+	
+	JTextField startNameInput = null;
+	JTextField endNameInput = null;
 
 	private MapGraph mg = null;
 	
@@ -47,10 +52,15 @@ public class SafeDirectionGUI extends JFrame {
 		searchLayout.setVgap(5);
 		searchPane.setLayout(searchLayout);
 		
-		JTextField startNameInput = new JTextField(15);
-		JTextField endNameInput = new JTextField(15);
+		startNameInput = new JTextField(15);
+		endNameInput = new JTextField(15);
 		JButton findPathBtn = new JButton("길 찾기");
-		findPathBtn.setBounds(50,50,50,50);
+		findPathBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            	System.out.println("길찾기");
+            }
+		});
 		searchPane.add(startNameInput);
 		searchPane.add(endNameInput);
 		searchPane.add(findPathBtn);
@@ -71,6 +81,30 @@ public class SafeDirectionGUI extends JFrame {
 		
 		public MapPanel() {
 			setImage();
+			addMouseListener(new MouseAdapter() {
+				private Color background;
+				private int x;
+				private int y;
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                	x = e.getX()*4/3;
+                	y = e.getY()*4/3;
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+    				for(MapGraph.MapVertex v : mg.getVertexSet()) {
+    					if(Math.abs(v.getX()-x) < 15 && Math.abs(v.getY()-y) < 15) {
+    						if(startNameInput.getText().equals(""))
+    							startNameInput.setText(v.getName());
+    						else
+    							endNameInput.setText(v.getName());
+    						return;
+    					}
+    				}
+                }
+			});
 		}
 		
 		public void setImage() {
@@ -90,10 +124,9 @@ public class SafeDirectionGUI extends JFrame {
 				w = mapImage.getWidth(null)*3/4;
 				h = mapImage.getHeight(null)*3/4;
 				g.drawImage(mapImage,0,0,w,h,null);
-				System.out.println(mg.getVertexSet().size());
 				for(MapGraph.MapVertex v : mg.getVertexSet()) {
 					g.fillOval(v.getX()*3/4 - 5, v.getY()*3/4 - 5, 10, 10);
-					g.drawString(v.getId(), v.getX()*3/4, v.getY()*3/4 + 10);
+					g.drawString(v.getName(), v.getX()*3/4, v.getY()*3/4 + 10);
 				}
 				for(MapGraph.MapEdge e : mg.getEdgeSet()) {
 					MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
