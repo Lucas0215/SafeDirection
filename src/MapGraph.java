@@ -186,18 +186,34 @@ public class MapGraph {
 		return null;
 	}
 	
+	public MapVertex findVertexByName(String name) {
+		for(MapVertex v : vertices) {
+			if(v.name.equals(name)) {
+				return v;
+			}
+		}
+		return null;
+	}
+	
 	public double getDistance(MapVertex v, MapVertex u) {
 		return Math.sqrt((v.x-u.x)*(v.x-u.x)+(v.y-u.y)*(v.y-u.y));
 	}
 	
-	public double getEdgeCost(MapVertex v, MapVertex u) {
+	public MapEdge getEdge(MapVertex v, MapVertex u) {
 		for(MapEdge e : edges) {
 			if(findVertexById(e.getAdjacentNode(0)) == null || findVertexById(e.getAdjacentNode(1)) == null)
 				continue;
 			if((findVertexById(e.getAdjacentNode(0)).equals(v) && findVertexById(e.getAdjacentNode(1)).equals(u)) ||
 					(findVertexById(e.getAdjacentNode(0)).equals(u) && findVertexById(e.getAdjacentNode(1)).equals(v)))
-				return e.getCost();
+				return e;
 		}
+		return null;
+	}
+	
+	public double getEdgeCost(MapVertex v, MapVertex u) {
+		MapEdge e = getEdge(v,u);
+		if(e!=null)
+			return e.getCost();
 		return Double.MAX_VALUE;
 	}
 	

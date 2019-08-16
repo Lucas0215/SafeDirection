@@ -4,7 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,12 +15,15 @@ import javax.swing.border.EmptyBorder;
 
 public class SafeDirectionGUI extends JFrame {
 	
-	JTextField startNameInput = null;
-	JTextField endNameInput = null;
+	private JTextField startNameInput = null;
+	private JTextField endNameInput = null;
 
 	private MapGraph mg = null;
 	
-	private static SafeAStarSearch sas = null;
+	private int displayMode = 0;
+	private List<String> markVList = new ArrayList<String>();
+	List<MapGraph.MapVertex> path = new ArrayList<MapGraph.MapVertex>();
+	
 	private static MapPanel mapPanel = null;
 
 	public SafeDirectionGUI(MapGraph graph) {
@@ -32,14 +36,6 @@ public class SafeDirectionGUI extends JFrame {
 		setLocation(300,30);
 		
 		Container topPane = getContentPane();
-		
-		/*
-		ImageIcon mapImageIcon = new ImageIcon("images/map_image.jpg");
-		Image scaledImage = mapImageIcon.getImage().getScaledInstance(mapImageIcon.getIconWidth()*3/4,mapImageIcon.getIconHeight()*3/4,Image.SCALE_DEFAULT);
-		ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
-		JLabel mapLabel = new JLabel(scaledImageIcon);
-		topPane.add(mapLabel,BorderLayout.CENTER);
-		*/
 		
 		mapPanel = new MapPanel();
 		topPane.add(mapPanel,BorderLayout.CENTER);
@@ -58,7 +54,17 @@ public class SafeDirectionGUI extends JFrame {
 		findPathBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            	System.out.println("±Ê√£±‚");
+            	MapGraph.MapVertex v1 = mg.findVertexByName(startNameInput.getText());
+            	MapGraph.MapVertex v2 = mg.findVertexByName(endNameInput.getText());
+            	if(v1!=null && v2!=null) {
+            		SafeAStarSearch astar = new SafeAStarSearch(mg);
+            		path = astar.AStarSearch(v1.getId(), v2.getId());
+            		for(MapGraph.MapVertex v : path) {
+            			v.printVertex();
+            		}
+            		displayMode = 3;
+            		repaint();
+            	}
             }
 		});
 		searchPane.add(startNameInput);
@@ -71,6 +77,7 @@ public class SafeDirectionGUI extends JFrame {
 		
 		setSize(540,700);
 		setVisible(true);
+		setResizable(false);
 		
 	}
 	
@@ -124,14 +131,42 @@ public class SafeDirectionGUI extends JFrame {
 				w = mapImage.getWidth(null)*3/4;
 				h = mapImage.getHeight(null)*3/4;
 				g.drawImage(mapImage,0,0,w,h,null);
+				if(displayMode==0) {
+					g.setColor(new Color(0,0,0,0));
+				}
+				else if(displayMode==1) {
+					g.setColor(new Color(0,0,0,255));
+				}
+				else if(displayMode==3) {
+					g.setColor(new Color(255,0,0,255));
+				}
 				for(MapGraph.MapVertex v : mg.getVertexSet()) {
-					g.fillOval(v.getX()*3/4 - 5, v.getY()*3/4 - 5, 10, 10);
-					g.drawString(v.getName(), v.getX()*3/4, v.getY()*3/4 + 10);
+					if(displayMode == 3) {
+						if(path.contains(v)) {
+							g.fillOval(v.getX()*3/4-5, v.getY()*3/4-5, 10, 10);
+							g.drawString(v.getName(), v.getX()*3/4, v.getY()*3/4+10);
+						}
+					}
+					else {
+						g.fillOval(v.getX()*3/4-5, v.getY()*3/4-5, 10, 10);
+						g.drawString(v.getName(), v.getX()*3/4, v.getY()*3/4+10);
+					}
 				}
 				for(MapGraph.MapEdge e : mg.getEdgeSet()) {
-					MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
-					MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
-					g.drawLine(a1.getX()*3/4, a1.getY()*3/4, a2.getX()*3/4, a2.getY()*3/4);
+					if(displayMode == 3) {
+						for(int i=0; i<path.size()-1; i++) {
+							if(e.equals(mg.getEdge(path.get(i), path.get(i+1)))) {
+								MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
+								MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
+								g.drawLine(a1.getX()*3/4, a1.getY()*3/4, a2.getX()*3/4, a2.getY()*3/4);
+							}
+						}
+					}
+					else {
+						MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
+						MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
+						g.drawLine(a1.getX()*3/4, a1.getY()*3/4, a2.getX()*3/4, a2.getY()*3/4);
+					}
 				}
 			}
 		}
