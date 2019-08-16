@@ -2,11 +2,15 @@ import java.util.*;
 
 public class SafeAStarSearch {
 	
-	private MapGraph mg = new MapGraph();
+	private MapGraph mg = null;
 	
 	private Queue<MapGraph.MapVertex> frontier = new PriorityQueue<>();
     
     private List<String> explored = new ArrayList<>();
+    
+    public SafeAStarSearch(MapGraph mg) {
+    	this.mg = mg;
+    }
     
     public List<MapGraph.MapVertex> AStarSearch(String startId, String endId) {
     	
@@ -43,7 +47,8 @@ public class SafeAStarSearch {
     }
 
 	public static void main(String[] args) {
-		SafeAStarSearch sas = new SafeAStarSearch();
+		MapGraph graph = new MapGraph();
+		SafeAStarSearch sas = new SafeAStarSearch(graph);
 		List<MapGraph.MapVertex> path = sas.AStarSearch("55", "52");
 		System.out.println("°æ·Î");
 		for(MapGraph.MapVertex v : path) {

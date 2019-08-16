@@ -32,6 +32,14 @@ public class MapGraph {
 			return this.id;
 		}
 		
+		public int getX() {
+			return this.x;
+		}
+		
+		public int getY() {
+			return this.y;
+		}
+		
 		public double getCost() {
 			return this.cost;
 		}
@@ -133,6 +141,14 @@ public class MapGraph {
 	public MapGraph() {
 		MapXMLParser xmlParser = new MapXMLParser();
 		nodeList2Graph(xmlParser.parseVertices(), xmlParser.parseEdges());
+	}
+	
+	public Set<MapVertex> getVertexSet() {
+		return vertices;
+	}
+	
+	public Set<MapEdge> getEdgeSet() {
+		return edges;
 	}
 
 	public void addVertex(MapVertex vertex) {

@@ -260,49 +260,55 @@
 			<type />
 		</node>
 		<node id="44">
-			<name>교차??12</name>
+			<name>교차로12</name>
 			<x>454</x>
 			<y>326</y>
 			<type />
 		</node>
-		<node id="46">
+		<node id="45">
 			<name>교차로13</name>
+			<x>108</x>
+			<y>7</y>
+			<type />
+		</node>
+		<node id="46">
+			<name>교차로14</name>
 			<x>575</x>
 			<y>414</y>
 			<type />
 		</node>
 		<node id="47">
-			<name>교차로14</name>
+			<name>교차로15</name>
 			<x>401</x>
 			<y>434</y>
 			<type />
 		</node>
 		<node id="48">
-			<name>교차로15</name>
+			<name>교차로16</name>
 			<x>531</x>
 			<y>473</y>
 			<type />
 		</node>
 		<node id="49">
-			<name>교차로16</name>
+			<name>교차로17</name>
 			<x>577</x>
 			<y>516</y>
 			<type />
 		</node>
 		<node id="50">
-			<name>교차로17</name>
+			<name>교차로18</name>
 			<x>506</x>
 			<y>510</y>
 			<type />
 		</node>
 		<node id="51">
-			<name>교차로18</name>
+			<name>교차로19</name>
 			<x>116</x>
 			<y>553</y>
 			<type />
 		</node>
 		<node id="52">
-			<name>교차로19</name>
+			<name>교차로20</name>
 			<x>269</x>
 			<y>560</y>
 			<type />
@@ -337,12 +343,72 @@
 			<y>724</y>
 			<type />
 		</node>
+		<node id="58">
+			<name>교차로25</name>
+			<x>639</x>
+			<y>26</y>
+			<type />
+		</node>
+		<node id="59">
+			<name>교차로26</name>
+			<x>615</x>
+			<y>542</y>
+			<type />
+		</node>
+		<node id="60">
+			<name>교차로27</name>
+			<x>482</x>
+			<y>647</y>
+			<type />
+		</node>
+		<node id="61">
+			<name>배드민턴장앞</name>
+			<x>600</x>
+			<y>611</y>
+			<type />
+		</node>
+		<node id="62">
+			<name>배드민턴장</name>
+			<x>643</x>
+			<y>629</y>
+			<type />
+		</node>
+		<node id="63">
+			<name>교차로28</name>
+			<x>572</x>
+			<y>710</y>
+			<type />
+		</node>
 	</nodeSet>
 	<edgeSet>
 		<edge>
-			<node id="40" />
+			<node id="36" />
+			<node id="58" />
+			<length>51</length>
+			<width>5</width>
+			<safety />
+			<reputation />
+		</edge>
+		<edge>
+			<node id="38" />
+			<node id="58" />
+			<length>28</length>
+			<width>3</width>
+			<safety />
+			<reputation />
+		</edge>
+		<edge>
+			<node id="45" />
 			<node id="33" />
-			<length>151</length>
+			<length>48</length>
+			<width>6</width>
+			<safety />
+			<reputation />
+		</edge>
+		<edge>
+			<node id="40" />
+			<node id="45" />
+			<length>108</length>
 			<width>6</width>
 			<safety />
 			<reputation />
@@ -368,14 +434,6 @@
 			<node id="36" />
 			<length>30</length>
 			<width>6</width>
-			<safety />
-			<reputation />
-		</edge>
-		<edge>
-			<node id="36" />
-			<node id="38" />
-			<length>81</length>
-			<width>4</width>
 			<safety />
 			<reputation />
 		</edge>
@@ -872,6 +930,46 @@
 			<node id="32" />
 			<length>5</length>
 			<width>26</width>
+			<safety />
+			<reputation />
+		</edge>
+		<edge>
+			<node id="49" />
+			<node id="59" />
+			<length>16</length>
+			<width>6</width>
+			<safety />
+			<reputation />
+		</edge>
+		<edge>
+			<node id="59" />
+			<node id="61" />
+			<length>25</length>
+			<width>6</width>
+			<safety />
+			<reputation />
+		</edge>
+		<edge>
+			<node id="63" />
+			<node id="61" />
+			<length>36</length>
+			<width>6</width>
+			<safety />
+			<reputation />
+		</edge>
+		<edge>
+			<node id="61" />
+			<node id="62" />
+			<length>15</length>
+			<width>20</width>
+			<safety />
+			<reputation />
+		</edge>
+		<edge>
+			<node id="63" />
+			<node id="60" />
+			<length>36</length>
+			<width>7</width>
 			<safety />
 			<reputation />
 		</edge>

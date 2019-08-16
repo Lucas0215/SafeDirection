@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,9 +12,17 @@ import javax.swing.border.EmptyBorder;
 
 public class SafeDirectionGUI extends JFrame {
 
-	public SafeDirectionGUI() {
+	private MapGraph mg = null;
+	
+	private static SafeAStarSearch sas = null;
+	private static MapPanel mapPanel = null;
+
+	public SafeDirectionGUI(MapGraph graph) {
 		
 		setTitle("안전길찾기 ver1.0");
+		
+		mg = graph;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300,30);
 		
@@ -27,8 +36,8 @@ public class SafeDirectionGUI extends JFrame {
 		topPane.add(mapLabel,BorderLayout.CENTER);
 		*/
 		
-		MapPanel mp = new MapPanel();
-		topPane.add(mp,BorderLayout.CENTER);
+		mapPanel = new MapPanel();
+		topPane.add(mapPanel,BorderLayout.CENTER);
 		
 		JPanel searchPane = new JPanel();
 		searchPane.setBorder(new EmptyBorder(10,10,10,10));
@@ -81,12 +90,24 @@ public class SafeDirectionGUI extends JFrame {
 				w = mapImage.getWidth(null)*3/4;
 				h = mapImage.getHeight(null)*3/4;
 				g.drawImage(mapImage,0,0,w,h,null);
+				System.out.println(mg.getVertexSet().size());
+				for(MapGraph.MapVertex v : mg.getVertexSet()) {
+					g.fillOval(v.getX()*3/4 - 5, v.getY()*3/4 - 5, 10, 10);
+					g.drawString(v.getId(), v.getX()*3/4, v.getY()*3/4 + 10);
+				}
+				for(MapGraph.MapEdge e : mg.getEdgeSet()) {
+					MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
+					MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
+					g.drawLine(a1.getX()*3/4, a1.getY()*3/4, a2.getX()*3/4, a2.getY()*3/4);
+				}
 			}
 		}
 	}
 	
 	public static void main(String[] args) {
-		new SafeDirectionGUI();
+		MapGraph graph = new MapGraph();
+		SafeAStarSearch sass = new SafeAStarSearch(graph);
+		SafeDirectionGUI gui = new SafeDirectionGUI(graph);
 	}
 
 }
