@@ -11,6 +11,7 @@ public class Settings {
 	
 	public static void update(int displayMode, int cctvImp, int shelterImp, int convenienceImp, int widthImp, int brightnessImp, int adultEntImp, int constructionImp) {
 		Settings.displayMode = displayMode;
+		Settings.cctvImp = cctvImp;
 		Settings.shelterImp = shelterImp;
 		Settings.convenienceImp = convenienceImp;
 		Settings.widthImp = widthImp;

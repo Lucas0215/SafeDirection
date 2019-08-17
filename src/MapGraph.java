@@ -14,6 +14,7 @@ public class MapGraph {
 		
 		private String predecessor = null;
 		private double cost = Double.MAX_VALUE;
+		private double unsafeCost = 0;
 		private double heuristic = Double.MAX_VALUE;
 		
 		public MapVertex(String id, String name, int x, int y, boolean isIntersection) {
@@ -24,8 +25,9 @@ public class MapGraph {
 			this.isIntersection = isIntersection;
 		}
 		
-		public void updateCost(double newCost, double newHeuristic, String newPredecessor) {
+		public void updateCost(double newCost, double newUnsafeCost, double newHeuristic, String newPredecessor) {
 			this.cost = newCost;
+			this.unsafeCost = newUnsafeCost;
 			this.heuristic = newHeuristic;
 			this.predecessor = newPredecessor;
 		}
@@ -48,6 +50,10 @@ public class MapGraph {
 		
 		public double getCost() {
 			return this.cost;
+		}
+		
+		public double getTotalCost() {
+			return this.cost + this.unsafeCost;
 		}
 		
 		public double getHeuristic() {
@@ -80,9 +86,9 @@ public class MapGraph {
 		public int compareTo(Object o) {
 			if(o instanceof MapVertex) {
 				MapVertex cv = (MapVertex) o;
-				if(cv.cost + cv.heuristic < this.cost + this.heuristic)
+				if(cv.cost + cv.unsafeCost + cv.heuristic < this.cost + cv.unsafeCost + this.heuristic)
 					return 1;
-				else if(cv.cost + cv.heuristic > this.cost + this.heuristic)
+				else if(cv.cost + cv.unsafeCost + cv.heuristic > this.cost + cv.unsafeCost + this.heuristic)
 					return -1;
 				else
 					return 0;
@@ -104,23 +110,30 @@ public class MapGraph {
 		
 		//Safe-element
 		private int cctvNum;
+		private int shelterNum;
+		private int convenienceNum;
 		private double averageWidth;
-		private double averageIllum;
-		private int convStoreNum;
-		private double userScore;
+		private double averageBrightness;
+		
+		private int userScore;
 		
 		//Dangerous-element
-		//add later
+		private int adultEntNum;
+		private int constructionNum;
 		
-		public MapEdge(String id, String[] adjacentNodes, double length, int cctvNum, double averageWidth,
-				int averageIllum, int convStoreNum, double userScore) {
+		public MapEdge(String id, String[] adjacentNodes, double length, int cctvNum, int shelterNum,
+				int convenienceNum, double averageWidth, double averageBrightness, int adultEntNum,
+				int constructionNum, int userScore) {
 			this.id = id;
 			this.adjacentNodes = adjacentNodes;
 			this.length = length;
 			this.cctvNum = cctvNum;
+			this.shelterNum = shelterNum;
+			this.convenienceNum = convenienceNum;
 			this.averageWidth = averageWidth;
-			this.averageIllum = averageIllum;
-			this.convStoreNum = convStoreNum;
+			this.averageBrightness = averageBrightness;
+			this.adultEntNum = adultEntNum;
+			this.constructionNum = constructionNum;;
 			this.userScore = userScore;
 		}
 		
@@ -170,9 +183,10 @@ public class MapGraph {
 	public void addEdge(MapEdge edge) {
 		edges.add(edge);
 	}
-	public void addEdge(String id, String[] adjacentNodes, double length, int cctvNum, double averageWidth,
-			int averageIllum, int convStoreNum, double userScore) {
-		edges.add(new MapEdge(id, adjacentNodes, length, cctvNum, averageWidth, averageIllum, convStoreNum, userScore));
+	public void addEdge(String id, String[] adjacentNodes, double length, int cctvNum, int shelterNum,
+			int convenienceNum, double averageWidth, double averageBrightness, int adultEntNum,
+			int constructionNum, int userScore) {
+		edges.add(new MapEdge(id, adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum, userScore));
 	}
 	
 	public void initCosts() {
@@ -220,6 +234,20 @@ public class MapGraph {
 		if(e!=null)
 			return e.getCost();
 		return Double.MAX_VALUE;
+	}
+	
+	public double getSafetyCost(MapVertex v, MapVertex u) {
+		MapEdge e = getEdge(v,u);
+		if(e!=null) {
+			return Settings.cctvImp * ((e.cctvNum / e.length) > 0.2 ? 0 : 0.2 - (e.cctvNum / e.length))
+			+ Settings.shelterImp * ((e.shelterNum / e.length) > 0.1 ? 0 : 0.1 - (e.shelterNum / e.length))
+			+ Settings.convenienceImp * ((e.convenienceNum / e.length) > 0.1 ? 0 : 0.1 - (e.convenienceNum / e.length))
+			+ Settings.widthImp * ((e.cctvNum / e.length) > 10 ? 0 : 10 - (e.cctvNum / e.length))
+			+ Settings.brightnessImp * (1 - e.averageBrightness)
+			+ Settings.adultEntImp * e.adultEntNum / e.length
+			+ Settings.constructionImp * e.constructionNum / e.length;
+		}
+		return 0;
 	}
 	
 	public List<MapVertex> constructPath(String endId) {
@@ -273,11 +301,17 @@ public class MapGraph {
 			adjacentNodes[0] = null;
 			adjacentNodes[1] = null;
 			double length = 0;
-			int cctvNum = 0;
-			double averageWidth = 0;
-			int averageIllum = 0;
-			int convStoreNum = 0;
-			double userScore = 0;
+			int cctvNum=0;
+			int shelterNum=0;
+			int convenienceNum=0;
+			double averageWidth=0;
+			double averageBrightness=0;
+			
+			int userScore=0;
+			
+			int adultEntNum=0;
+			int constructionNum=0;
+			//cctvNum><shelterNum> <convNum><brightness><adultentNum> <constructNum>
 			for(int j=0; j<fields.getLength(); j++) {
 				Node snode = fields.item(j);
 				String nodeName = snode.getNodeName();
@@ -290,12 +324,29 @@ public class MapGraph {
 				else if(nodeName.equals("length")) {
 					length = Double.parseDouble(snode.getFirstChild().getTextContent());
 				}
+				else if(nodeName.equals("cctvNum")) {
+					cctvNum = Integer.parseInt(snode.getFirstChild().getTextContent());
+				}
+				else if(nodeName.equals("shelterNum")) {
+					shelterNum = Integer.parseInt(snode.getFirstChild().getTextContent());
+				}
+				else if(nodeName.equals("convNum")) {
+					convenienceNum = Integer.parseInt(snode.getFirstChild().getTextContent());
+				}
 				else if(nodeName.equals("width")) {
 					averageWidth = Double.parseDouble(snode.getFirstChild().getTextContent());
 				}
+				else if(nodeName.equals("brightness")) {
+					averageBrightness = Double.parseDouble(snode.getFirstChild().getTextContent());
+				}
+				else if(nodeName.equals("adultEntNum")) {
+					adultEntNum = Integer.parseInt(snode.getFirstChild().getTextContent());
+				}
+				else if(nodeName.equals("constructNum")) {
+					constructionNum = Integer.parseInt(snode.getFirstChild().getTextContent());
+				}
 			}
-			MapEdge me = new MapEdge(id, adjacentNodes, length, cctvNum, averageWidth,
-					averageIllum, convStoreNum, userScore);
+			MapEdge me = new MapEdge(id, adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum, userScore);
 			addEdge(me);
 			
 		}
