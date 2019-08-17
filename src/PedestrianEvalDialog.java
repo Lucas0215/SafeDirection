@@ -57,6 +57,8 @@ public class PedestrianEvalDialog extends JDialog {
 		add(infoPane,BorderLayout.SOUTH);
 		
 		setSize(540,700);
+		setLocationByPlatform(true);
+		setModalityType(DEFAULT_MODALITY_TYPE);
 		setResizable(false);
 	}
 	

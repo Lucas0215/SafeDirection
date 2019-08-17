@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 public class SafeDirectionGUI extends JFrame {
 	
 	private PedestrianEvalDialog pEvalDialog = null;
+	private SettingsDialog settingsDialog = null;
 	
 	private JTextField startNameInput = null;
 	private JTextField endNameInput = null;
@@ -84,7 +85,16 @@ public class SafeDirectionGUI extends JFrame {
 		searchPane.add(initInputBtn);
 		topPane.add(searchPane,BorderLayout.NORTH);
 
+		JPanel controlPane = new JPanel();
+		//controlPane.setBorder(new EmptyBorder(10,10,10,10));
+		controlPane.setBackground(Color.LIGHT_GRAY);
+		
+		GridLayout controlLayout = new GridLayout(1,2);
+		controlLayout.setVgap(5);
+		controlPane.setLayout(controlLayout);
+		
 		JButton estEdgeBtn = new JButton("길 평가");
+		JButton settingsBtn = new JButton("설정");
 		JFrame frame = this;
 		estEdgeBtn.addMouseListener(new MouseAdapter() {
             @Override
@@ -93,9 +103,20 @@ public class SafeDirectionGUI extends JFrame {
             	pEvalDialog.setVisible(true);
             }
 		});
-		topPane.add(estEdgeBtn,BorderLayout.SOUTH);
+		settingsBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+        		settingsDialog = new SettingsDialog(frame,"설정", mg, scaleRatio);
+        		settingsDialog.setVisible(true);
+            }
+		});
+		controlPane.add(estEdgeBtn);
+		controlPane.add(settingsBtn);
+		
+		topPane.add(controlPane,BorderLayout.SOUTH);
 		
 		setSize(540,700);
+		setLocationByPlatform(true);
 		setVisible(true);
 		setResizable(false);
 		
@@ -192,10 +213,14 @@ public class SafeDirectionGUI extends JFrame {
 		}
 	}
 	
+	public void setSettings(int displayMode) {
+		this.displayMode = displayMode;
+		repaint();
+	}
+	
 	public static void main(String[] args) {
 		MapGraph graph = new MapGraph();
-		SafeAStarSearch sass = new SafeAStarSearch(graph);
-		SafeDirectionGUI gui = new SafeDirectionGUI(graph);
+		LoginUI ui = new LoginUI();
 	}
 
 }
