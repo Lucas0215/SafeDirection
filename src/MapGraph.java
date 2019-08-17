@@ -14,6 +14,7 @@ public class MapGraph {
 		
 		private String predecessor = null;
 		private double cost = Double.MAX_VALUE;
+		private double heuristic = Double.MAX_VALUE;
 		
 		public MapVertex(String id, String name, int x, int y, boolean isIntersection) {
 			this.id = id;
@@ -23,8 +24,9 @@ public class MapGraph {
 			this.isIntersection = isIntersection;
 		}
 		
-		public void updateCost(double newCost, String newPredecessor) {
+		public void updateCost(double newCost, double newHeuristic, String newPredecessor) {
 			this.cost = newCost;
+			this.heuristic = newHeuristic;
 			this.predecessor = newPredecessor;
 		}
 
@@ -46,6 +48,10 @@ public class MapGraph {
 		
 		public double getCost() {
 			return this.cost;
+		}
+		
+		public double getHeuristic() {
+			return this.heuristic;
 		}
 		
 		public Set<MapVertex> getNeighbors() {
@@ -73,9 +79,10 @@ public class MapGraph {
 		@Override
 		public int compareTo(Object o) {
 			if(o instanceof MapVertex) {
-				if(((MapVertex) o).cost < this.cost)
+				MapVertex cv = (MapVertex) o;
+				if(cv.cost + cv.heuristic < this.cost + this.heuristic)
 					return 1;
-				else if(((MapVertex) o).cost > this.cost)
+				else if(cv.cost + cv.heuristic > this.cost + this.heuristic)
 					return -1;
 				else
 					return 0;
@@ -194,7 +201,7 @@ public class MapGraph {
 	}
 	
 	public double getDistance(MapVertex v, MapVertex u) {
-		return Math.sqrt((v.x-u.x)*(v.x-u.x)+(v.y-u.y)*(v.y-u.y));
+		return Math.sqrt((v.x-u.x)*(v.x-u.x)+(v.y-u.y)*(v.y-u.y)) / 3;
 	}
 	
 	public MapEdge getEdge(MapVertex v, MapVertex u) {

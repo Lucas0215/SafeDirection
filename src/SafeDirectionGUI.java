@@ -25,7 +25,7 @@ public class SafeDirectionGUI extends JFrame {
 	
 	final double scaleRatio = 0.75;
 	
-	private int displayMode = 0;
+	private boolean pathFound = false;
 	private List<String> markVList = new ArrayList<String>();
 	private List<MapGraph.MapVertex> path = new ArrayList<MapGraph.MapVertex>();
 	
@@ -35,7 +35,6 @@ public class SafeDirectionGUI extends JFrame {
 		
 		setTitle("안전길찾기 ver1.0");
 		mg = graph;
-		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300,30);
@@ -65,7 +64,7 @@ public class SafeDirectionGUI extends JFrame {
             	if(v1!=null && v2!=null) {
             		SafeAStarSearch astar = new SafeAStarSearch(mg);
             		path = astar.AStarSearch(v1.getId(), v2.getId());
-            		displayMode = 3;
+            		pathFound = true;
             		repaint();
             	}
             }
@@ -75,7 +74,7 @@ public class SafeDirectionGUI extends JFrame {
             public void mouseReleased(MouseEvent e) {
             	startNameInput.setText("");
             	endNameInput.setText("");
-            	displayMode = 0;
+            	pathFound = false;
             	repaint();
             }
 		});
@@ -86,7 +85,6 @@ public class SafeDirectionGUI extends JFrame {
 		topPane.add(searchPane,BorderLayout.NORTH);
 
 		JPanel controlPane = new JPanel();
-		//controlPane.setBorder(new EmptyBorder(10,10,10,10));
 		controlPane.setBackground(Color.LIGHT_GRAY);
 		
 		GridLayout controlLayout = new GridLayout(1,2);
@@ -106,6 +104,8 @@ public class SafeDirectionGUI extends JFrame {
 		settingsBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
+            	pathFound = false;
+            	repaint();
         		settingsDialog = new SettingsDialog(frame,"설정", mg, scaleRatio);
         		settingsDialog.setVisible(true);
             }
@@ -172,17 +172,17 @@ public class SafeDirectionGUI extends JFrame {
 				w = (int) (mapImage.getWidth(null)*scaleRatio);
 				h = (int) (mapImage.getHeight(null)*scaleRatio);
 				g.drawImage(mapImage,0,0,w,h,null);
-				if(displayMode==0) {
-					g.setColor(new Color(0,0,0,0));
-				}
-				else if(displayMode==1) {
-					g.setColor(new Color(0,0,0,255));
-				}
-				else if(displayMode==3) {
+				if(pathFound) {
 					g.setColor(new Color(255,0,0,255));
 				}
+				else if(Settings.displayMode==0) {
+					g.setColor(new Color(0,0,0,0));
+				}
+				else if(Settings.displayMode==1) {
+					g.setColor(new Color(0,0,0,255));
+				}
 				for(MapGraph.MapEdge e : mg.getEdgeSet()) {
-					if(displayMode == 3) {
+					if(pathFound) {
 						for(int i=0; i<path.size()-1; i++) {
 							if(e.equals(mg.getEdge(path.get(i), path.get(i+1)))) {
 								MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
@@ -194,28 +194,29 @@ public class SafeDirectionGUI extends JFrame {
 					else {
 						MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
 						MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
-						g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
+						if(Settings.displayMode/2%2 == 1) {
+							g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
+						}
 					}
 				}
 				for(MapGraph.MapVertex v : mg.getVertexSet()) {
-					if(displayMode == 3) {
+					if(pathFound) {
 						if(path.contains(v)) {
 							g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
 							g.drawString(v.getName(), (int)(v.getX()*scaleRatio), (int)(v.getY()*scaleRatio)+10);
 						}
 					}
 					else {
-						g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
-						g.drawString(v.getName(), (int)(v.getX()*scaleRatio), (int)(v.getY()*scaleRatio)+10);
+						if(Settings.displayMode%2 == 1) {
+							g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
+						}
+						if(Settings.displayMode/2/2%2 == 1) {
+							g.drawString(v.getName(), (int)(v.getX()*scaleRatio), (int)(v.getY()*scaleRatio)+10);
+						}
 					}
 				}
 			}
 		}
-	}
-	
-	public void setSettings(int displayMode) {
-		this.displayMode = displayMode;
-		repaint();
 	}
 	
 	public static void main(String[] args) {

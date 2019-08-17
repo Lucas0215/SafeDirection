@@ -38,27 +38,29 @@ public class SettingsDialog extends JDialog {
 		settingsPanel.add(new JPanel());
 		
 		JLabel markCCTV = new JLabel("CCTV :");	
-		JSlider slideCCTV = new JSlider(JSlider.HORIZONTAL,0,100,50);
+		JSlider slideCCTV = new JSlider(JSlider.HORIZONTAL,0,100,Settings.cctvImp);
 		settingsPanel.add(markCCTV);
 		settingsPanel.add(slideCCTV);
 		
 		JLabel markShelter = new JLabel("여성안심지킴이집 :");
-		JSlider slideShelter = new JSlider(JSlider.HORIZONTAL,0,100,50);
+		JSlider slideShelter = new JSlider(JSlider.HORIZONTAL,0,100,Settings.shelterImp);
 		settingsPanel.add(markShelter);
 		settingsPanel.add(slideShelter);
 		
 		JLabel markConv = new JLabel("24시 편의점 :");
-		JSlider slideConv = new JSlider(JSlider.HORIZONTAL,0,100,50);
+		JSlider slideConv = new JSlider(JSlider.HORIZONTAL,0,100,Settings.convenienceImp);
 		settingsPanel.add(markConv);
 		settingsPanel.add(slideConv);
+		
 		JLabel markWidth = new JLabel("길의 폭 :");	
-		JSlider slideWidth = new JSlider(JSlider.HORIZONTAL,0,100,50);
+		JSlider slideWidth = new JSlider(JSlider.HORIZONTAL,0,100,Settings.widthImp);
 		settingsPanel.add(markWidth);
 		settingsPanel.add(slideWidth);
-		JLabel markIllum = new JLabel("길의 밝기 :");
-		JSlider slideIllum = new JSlider(JSlider.HORIZONTAL,0,100,50);
-		settingsPanel.add(markIllum);
-		settingsPanel.add(slideIllum);
+		
+		JLabel markBrightness = new JLabel("길의 밝기 :");
+		JSlider slideBrightness = new JSlider(JSlider.HORIZONTAL,0,100,Settings.brightnessImp);
+		settingsPanel.add(markBrightness);
+		settingsPanel.add(slideBrightness);
 		
 		settingsPanel.add(new JPanel());
 		settingsPanel.add(new JPanel());
@@ -69,11 +71,12 @@ public class SettingsDialog extends JDialog {
 		settingsPanel.add(new JPanel());
 		
 		JLabel markAdult = new JLabel("술집/유흥가 :");
-		JSlider slideAdult = new JSlider(JSlider.HORIZONTAL,0,100,50);
+		JSlider slideAdult = new JSlider(JSlider.HORIZONTAL,0,100,Settings.adultEntImp);
 		settingsPanel.add(markAdult);
 		settingsPanel.add(slideAdult);
+		
 		JLabel markConst = new JLabel("공사 장소 :");
-		JSlider slideConst = new JSlider(JSlider.HORIZONTAL,0,100,50);
+		JSlider slideConst = new JSlider(JSlider.HORIZONTAL,0,100,Settings.constructionImp);
 		settingsPanel.add(markConst);
 		settingsPanel.add(slideConst);
 		
@@ -84,14 +87,9 @@ public class SettingsDialog extends JDialog {
 		displaySet.setFont(new Font("",Font.BOLD,20));
 		settingsPanel.add(displaySet);
 		settingsPanel.add(new JPanel());
-		JCheckBox seeVertices = new JCheckBox("노드 보이기", false);
-		JCheckBox seeEdges = new JCheckBox("간선 보이기", false);
-		JCheckBox seeNames = new JCheckBox("이름 보이기", false);
-		seeVertices.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-               if(e.getStateChange()==ItemEvent.DESELECTED);
-            }
-         });
+		JCheckBox seeVertices = new JCheckBox("노드 보이기", Settings.displayMode%2>0?true:false);
+		JCheckBox seeEdges = new JCheckBox("간선 보이기", Settings.displayMode/2%2>0?true:false);
+		JCheckBox seeNames = new JCheckBox("이름 보이기", Settings.displayMode/2/2%2>0?true:false);
 		settingsPanel.add(seeVertices);
 		settingsPanel.add(seeEdges);
 		settingsPanel.add(seeNames);
@@ -107,7 +105,22 @@ public class SettingsDialog extends JDialog {
 		
 		JButton setBtn = new JButton("설정");
 		JButton cancelBtn = new JButton("취소");
-		JButton adminBtn = new JButton("관리자 페이지");
+		JButton adminBtn = new JButton("관리자 설정");
+		JButton aboutUsBtn = new JButton("About Us");
+		setBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Settings.displayMode = (seeVertices.isSelected()?1:0)+(seeEdges.isSelected()?2:0)+(seeNames.isSelected()?4:0);
+				Settings.cctvImp = slideCCTV.getValue();
+				Settings.shelterImp = slideShelter.getValue();
+				Settings.convenienceImp = slideConv.getValue();
+				Settings.widthImp = slideWidth.getValue();
+				Settings.brightnessImp = slideBrightness.getValue();
+				Settings.adultEntImp = slideAdult.getValue();
+				Settings.constructionImp = slideConst.getValue();
+				setVisible(false);
+				frame.repaint();
+			}
+		});
 		cancelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -116,6 +129,7 @@ public class SettingsDialog extends JDialog {
 		scPanel.add(setBtn);
 		scPanel.add(cancelBtn);
 		scPanel.add(adminBtn);
+		scPanel.add(aboutUsBtn);
 		
 		add(scPanel, BorderLayout.SOUTH);
 		
