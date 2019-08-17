@@ -15,22 +15,26 @@ import javax.swing.border.EmptyBorder;
 
 public class SafeDirectionGUI extends JFrame {
 	
+	private PedestrianEvalDialog pEvalDialog = null;
+	
 	private JTextField startNameInput = null;
 	private JTextField endNameInput = null;
 
 	private MapGraph mg = null;
 	
+	final double scaleRatio = 0.75;
+	
 	private int displayMode = 0;
 	private List<String> markVList = new ArrayList<String>();
-	List<MapGraph.MapVertex> path = new ArrayList<MapGraph.MapVertex>();
+	private List<MapGraph.MapVertex> path = new ArrayList<MapGraph.MapVertex>();
 	
 	private static MapPanel mapPanel = null;
 
 	public SafeDirectionGUI(MapGraph graph) {
 		
 		setTitle("안전길찾기 ver1.0");
-		
 		mg = graph;
+		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300,30);
@@ -50,7 +54,8 @@ public class SafeDirectionGUI extends JFrame {
 		
 		startNameInput = new JTextField(15);
 		endNameInput = new JTextField(15);
-		JButton findPathBtn = new JButton("길 찾기");
+		JButton findPathBtn = new JButton("안전길찾기");
+		JButton initInputBtn = new JButton("초기화");
 		findPathBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -59,20 +64,35 @@ public class SafeDirectionGUI extends JFrame {
             	if(v1!=null && v2!=null) {
             		SafeAStarSearch astar = new SafeAStarSearch(mg);
             		path = astar.AStarSearch(v1.getId(), v2.getId());
-            		for(MapGraph.MapVertex v : path) {
-            			v.printVertex();
-            		}
             		displayMode = 3;
             		repaint();
             	}
             }
 		});
+		initInputBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            	startNameInput.setText("");
+            	endNameInput.setText("");
+            	displayMode = 0;
+            	repaint();
+            }
+		});
 		searchPane.add(startNameInput);
 		searchPane.add(endNameInput);
 		searchPane.add(findPathBtn);
+		searchPane.add(initInputBtn);
 		topPane.add(searchPane,BorderLayout.NORTH);
-		
+
 		JButton estEdgeBtn = new JButton("길 평가");
+		JFrame frame = this;
+		estEdgeBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+        		pEvalDialog = new PedestrianEvalDialog(frame,"길 안전 평가", mg, scaleRatio);
+            	pEvalDialog.setVisible(true);
+            }
+		});
 		topPane.add(estEdgeBtn,BorderLayout.SOUTH);
 		
 		setSize(540,700);
@@ -82,9 +102,9 @@ public class SafeDirectionGUI extends JFrame {
 	}
 	
 	class MapPanel extends JPanel {
-		Image mapImage;
-		int w;
-		int h;
+		private Image mapImage;
+		private int w;
+		private int h;
 		
 		public MapPanel() {
 			setImage();
@@ -95,8 +115,8 @@ public class SafeDirectionGUI extends JFrame {
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                	x = e.getX()*4/3;
-                	y = e.getY()*4/3;
+                	x = (int) (e.getX()/scaleRatio);
+                	y = (int) (e.getY()/scaleRatio);
                 }
 
                 @Override
@@ -128,8 +148,8 @@ public class SafeDirectionGUI extends JFrame {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			if(mapImage != null) {
-				w = mapImage.getWidth(null)*3/4;
-				h = mapImage.getHeight(null)*3/4;
+				w = (int) (mapImage.getWidth(null)*scaleRatio);
+				h = (int) (mapImage.getHeight(null)*scaleRatio);
 				g.drawImage(mapImage,0,0,w,h,null);
 				if(displayMode==0) {
 					g.setColor(new Color(0,0,0,0));
@@ -140,32 +160,32 @@ public class SafeDirectionGUI extends JFrame {
 				else if(displayMode==3) {
 					g.setColor(new Color(255,0,0,255));
 				}
-				for(MapGraph.MapVertex v : mg.getVertexSet()) {
-					if(displayMode == 3) {
-						if(path.contains(v)) {
-							g.fillOval(v.getX()*3/4-5, v.getY()*3/4-5, 10, 10);
-							g.drawString(v.getName(), v.getX()*3/4, v.getY()*3/4+10);
-						}
-					}
-					else {
-						g.fillOval(v.getX()*3/4-5, v.getY()*3/4-5, 10, 10);
-						g.drawString(v.getName(), v.getX()*3/4, v.getY()*3/4+10);
-					}
-				}
 				for(MapGraph.MapEdge e : mg.getEdgeSet()) {
 					if(displayMode == 3) {
 						for(int i=0; i<path.size()-1; i++) {
 							if(e.equals(mg.getEdge(path.get(i), path.get(i+1)))) {
 								MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
 								MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
-								g.drawLine(a1.getX()*3/4, a1.getY()*3/4, a2.getX()*3/4, a2.getY()*3/4);
+								g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
 							}
 						}
 					}
 					else {
 						MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
 						MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
-						g.drawLine(a1.getX()*3/4, a1.getY()*3/4, a2.getX()*3/4, a2.getY()*3/4);
+						g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
+					}
+				}
+				for(MapGraph.MapVertex v : mg.getVertexSet()) {
+					if(displayMode == 3) {
+						if(path.contains(v)) {
+							g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
+							g.drawString(v.getName(), (int)(v.getX()*scaleRatio), (int)(v.getY()*scaleRatio)+10);
+						}
+					}
+					else {
+						g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
+						g.drawString(v.getName(), (int)(v.getX()*scaleRatio), (int)(v.getY()*scaleRatio)+10);
 					}
 				}
 			}

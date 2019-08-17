@@ -83,11 +83,9 @@ public class MapGraph {
 			return 1;
 		}
 		
-		public void printVertex() {
-			System.out.println("Node(id="+id+")");
-			System.out.println("\tname : "+name);
-			System.out.println("\tx : "+x);
-			System.out.println("\ty : "+y);
+		@Override
+		public String toString() {
+			return "Node(id="+id+")"+"\n"+"\tname : "+name+"\n"+"\tx : "+x+"\n"+"\ty : "+y;
 		}
 
 	}
@@ -133,9 +131,9 @@ public class MapGraph {
 			else return null;
 		}
 		
-		public void printEdge() {
-			System.out.println("Edge(id="+id+")");
-			System.out.println("\tnodes : "+adjacentNodes[0]+"-"+adjacentNodes[1]);
+		@Override
+		public String toString() {
+			return "Edge(id="+id+")"+"\n"+"\tnodes : "+adjacentNodes[0]+"-"+adjacentNodes[1]+"\n"+"\tlength : "+length+"\twidth : "+averageWidth;
 		}
 	}
 	

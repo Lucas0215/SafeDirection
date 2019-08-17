@@ -331,12 +331,6 @@
 			<y>632</y>
 			<type />
 		</node>
-		<node id="56">
-			<name>교차로24</name>
-			<x>228</x>
-			<y>736</y>
-			<type />
-		</node>
 		<node id="57">
 			<name>교차로25</name>
 			<x>275</x>
@@ -503,8 +497,16 @@
 		</edge>
 		<edge>
 			<node id="20" />
+			<node id="60" />
+			<length>25</length>
+			<width>26</width>
+			<safety />
+			<reputation />
+		</edge>
+		<edge>
 			<node id="24" />
-			<length>38</length>
+			<node id="60" />
+			<length>14</length>
 			<width>26</width>
 			<safety />
 			<reputation />
@@ -543,14 +545,14 @@
 		</edge>
 		<edge>
 			<node id="57" />
-			<node id="56" />
+			<node id="28" />
 			<length>15</length>
 			<width>26</width>
 			<safety />
 			<reputation />
 		</edge>
 		<edge>
-			<node id="56" />
+			<node id="28" />
 			<node id="32" />
 			<length>29</length>
 			<width>26</width>
@@ -558,7 +560,7 @@
 			<reputation />
 		</edge>
 		<edge>
-			<node id="56" />
+			<node id="28" />
 			<node id="55" />
 			<length>57</length>
 			<width>4</width>

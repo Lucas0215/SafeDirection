@@ -34,26 +34,16 @@ public class SafeAStarSearch {
     		
     		for(MapGraph.MapVertex u : v.getNeighbors()) {
     			if(!frontier.contains(u) && !explored.contains(u.getId())) {
-    				u.updateCost(v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endv), v.getId());
+    				u.updateCost(v.getCost() - mg.getDistance(v, endv) + mg.getEdgeCost(v, u) + mg.getDistance(u, endv), v.getId());
     				frontier.add(u);
     			}
-    			else if(frontier.contains(u) && u.getCost() > v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endv)) {
-    				u.updateCost(v.getCost() + mg.getEdgeCost(v, u) + mg.getDistance(u, endv), v.getId());
+    			else if(frontier.contains(u) && u.getCost() > v.getCost() - mg.getDistance(v, endv) + mg.getEdgeCost(v, u) + mg.getDistance(u, endv)) {
     				frontier.remove(u);
+    				u.updateCost(v.getCost() - mg.getDistance(v, endv) + mg.getEdgeCost(v, u) + mg.getDistance(u, endv), v.getId());
     				frontier.add(u);
     			}
     		}
     	}
     }
-
-	public static void main(String[] args) {
-		MapGraph graph = new MapGraph();
-		SafeAStarSearch sas = new SafeAStarSearch(graph);
-		List<MapGraph.MapVertex> path = sas.AStarSearch("55", "52");
-		System.out.println("°æ·Î");
-		for(MapGraph.MapVertex v : path) {
-			v.printVertex();
-		}
-	}
 
 }
