@@ -63,7 +63,7 @@ public class SafeDirectionGUI extends JFrame {
             	MapGraph.MapVertex v2 = mg.findVertexByName(endNameInput.getText());
             	if(v1!=null && v2!=null) {
             		SafeAStarSearch astar = new SafeAStarSearch(mg);
-            		path = astar.AStarSearch(v1.getId(), v2.getId());
+            		path = astar.AStarSearch(v1.getId(), v2.getId(), true);
             		pathFound = true;
             		repaint();
             	}

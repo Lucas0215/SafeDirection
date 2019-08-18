@@ -12,14 +12,14 @@ public class SafeAStarSearch {
     	this.mg = mg;
     }
     
-    public List<MapGraph.MapVertex> AStarSearch(String startId, String endId) {
+    public List<MapGraph.MapVertex> AStarSearch(String startId, String endId, boolean safetyMode) {
     	
     	MapGraph.MapVertex startv = mg.findVertexById(startId);
     	MapGraph.MapVertex endv = mg.findVertexById(endId);
     	
     	mg.initCosts();
     	
-    	startv.updateCost(0, 0, mg.getDistance(startv, endv), null);
+    	startv.updateCost(0, mg.getDistance(startv, endv), null);
     	frontier.add(startv);
     	
     	while(true) {
@@ -34,14 +34,26 @@ public class SafeAStarSearch {
     		
     		for(MapGraph.MapVertex u : v.getNeighbors()) {
     			if(!frontier.contains(u) && !explored.contains(u.getId())) {
-    				double cost = v.getCost() + mg.getEdgeCost(v, u);
-    				u.updateCost(cost, mg.getSafetyCost(v,u), mg.getDistance(u, endv), v.getId());
+    				double cost;
+    				if(safetyMode) {
+    					cost = v.getCost() + mg.getEdgeCost(v, u) + mg.getSafetyCost(v, u);
+    				}
+    				else {
+    					cost = v.getCost() + mg.getEdgeCost(v, u);
+    				}
+    				u.updateCost(cost, mg.getDistance(u, endv), v.getId());
     				frontier.add(u);
     			}
     			else if(frontier.contains(u) && u.getCost() > v.getCost() + mg.getEdgeCost(v, u)) {
     				frontier.remove(u);
-    				double cost = v.getCost() + mg.getEdgeCost(v, u);
-    				u.updateCost(cost, mg.getSafetyCost(v,u), mg.getDistance(u, endv), v.getId());
+    				double cost;
+    				if(safetyMode) {
+    					cost = v.getCost() + mg.getEdgeCost(v, u) + mg.getSafetyCost(v, u);
+    				}
+    				else {
+    					cost = v.getCost() + mg.getEdgeCost(v, u);
+    				}
+    				u.updateCost(cost, mg.getDistance(u, endv), v.getId());
     				frontier.add(u);
     			}
     		}
