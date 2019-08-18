@@ -156,7 +156,7 @@ public class SafeDirectionGUI extends JFrame {
 		}
 		
 		public void setImage() {
-			File f = new File("images/map_image.jpg");
+			File f = new File("images/map_image2.jpg");
 			try {
 				mapImage = ImageIO.read(f);
 			} catch (IOException e) {

@@ -123,7 +123,7 @@ public class PedestrianEvalDialog extends JDialog {
 		}
 		
 		public void setImage() {
-			File f = new File("images/map_image.jpg");
+			File f = new File("images/map_image2.jpg");
 			try {
 				mapImage = ImageIO.read(f);
 			} catch (IOException e) {
