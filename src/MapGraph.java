@@ -66,17 +66,6 @@ public class MapGraph {
 		}
 		
 		@Override
-		public boolean equals(Object o) {
-			if (o instanceof MapVertex) {
-				if (((MapVertex) o).id.equals(this.id))
-					return true;
-				else
-					return false;
-			}
-			else return false;
-		}
-		
-		@Override
 		public String toString() {
 			return "Node(id="+id+")"+"\n"+"\tname : "+name+"\n"+"\tx : "+x+"\n"+"\ty : "+y;
 		}
@@ -84,7 +73,6 @@ public class MapGraph {
 	}
 	
 	class MapEdge {
-		private String id;
 		private String[] adjacentNodes = new String[2];
 		private double length;
 		
@@ -101,10 +89,9 @@ public class MapGraph {
 		private int adultEntNum;
 		private int constructionNum;
 		
-		public MapEdge(String id, String[] adjacentNodes, double length, int cctvNum, int shelterNum,
+		public MapEdge(String[] adjacentNodes, double length, int cctvNum, int shelterNum,
 				int convenienceNum, double averageWidth, double averageBrightness, int adultEntNum,
 				int constructionNum, int userScore) {
-			this.id = id;
 			this.adjacentNodes = adjacentNodes;
 			this.length = length;
 			this.cctvNum = cctvNum;
@@ -133,7 +120,7 @@ public class MapGraph {
 		
 		@Override
 		public String toString() {
-			return "Edge(id="+id+")"+"\n"+"\tNodes : "+adjacentNodes[0]+"-"+adjacentNodes[1]+"\n"+"\tLength : "
+			return "Edge"+"\n"+"\tNodes : "+adjacentNodes[0]+"-"+adjacentNodes[1]+"\n"+"\tLength : "
 					+length+"\n"+"\tWidth : "+averageWidth+"\n"+"\tCCTV : "+cctvNum+"\n"+"\tShelter : "+shelterNum+"\n"+"\tConvenience Store : "
 					+convenienceNum+"\n"+"\tBrightness : "+averageBrightness+"\n"+"\tAdult Entertainment : "+adultEntNum
 					+"\n"+"\tUnder Construction : "+constructionNum;
@@ -166,10 +153,10 @@ public class MapGraph {
 	public void addEdge(MapEdge edge) {
 		edges.add(edge);
 	}
-	public void addEdge(String id, String[] adjacentNodes, double length, int cctvNum, int shelterNum,
+	public void addEdge(String[] adjacentNodes, double length, int cctvNum, int shelterNum,
 			int convenienceNum, double averageWidth, double averageBrightness, int adultEntNum,
 			int constructionNum, int userScore) {
-		edges.add(new MapEdge(id, adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum, userScore));
+		edges.add(new MapEdge(adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum, userScore));
 	}
 	
 	public void initCosts() {
@@ -225,13 +212,13 @@ public class MapGraph {
 	public double getSafetyCost(MapVertex v, MapVertex u) {
 		MapEdge e = getEdge(v,u);
 		if(e!=null) {
-			return Settings.getCctvImp() * ((e.cctvNum / e.length) > 0.02 ? 0 : (0.02 - (e.cctvNum / e.length))) * e.length * 5
-			+ Settings.getShelterImp() * ((e.shelterNum / e.length) > 0.02 ? 0 : (0.02 - (e.shelterNum / e.length))) * e.length * 5
-			+ Settings.getConvenienceImp() * ((e.convenienceNum / e.length) > 0.02 ? 0 : (0.02 - (e.convenienceNum / e.length))) * e.length * 5
+			return Settings.getCctvImp() * ((e.length - e.cctvNum * 20)>0?(e.length - e.cctvNum * 20):0) * 0.1
+			+ Settings.getShelterImp() * ((e.length - e.shelterNum * 50)>0?(e.length - e.shelterNum * 50):0) * 0.1
+			+ Settings.getConvenienceImp() * ((e.length - e.convenienceNum * 50)>0?(e.length - e.convenienceNum * 50):0) * 0.1
 			+ Settings.getWidthImp() * (e.averageWidth > 10 ? 0 : (10 - e.averageWidth)) * e.length * 0.01
-			+ Settings.getBrightnessImp() * (1 - e.averageBrightness) * 0.1 * e.length
-			+ Settings.getAdultEntImp() * e.adultEntNum * 1.5
-			+ Settings.getConstructionImp() * e.constructionNum * 5;
+			+ Settings.getBrightnessImp() * (1 - e.averageBrightness) * e.length * 0.02
+			+ Settings.getAdultEntImp() * e.adultEntNum
+			+ Settings.getConstructionImp() * e.constructionNum * 2;
 		}
 		return 0;
 	}
@@ -336,7 +323,7 @@ public class MapGraph {
 					constructionNum = Integer.parseInt(snode.getFirstChild().getTextContent());
 				}
 			}
-			MapEdge me = new MapEdge(id, adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum, userScore);
+			MapEdge me = new MapEdge(adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum, userScore);
 			addEdge(me);
 			
 		}

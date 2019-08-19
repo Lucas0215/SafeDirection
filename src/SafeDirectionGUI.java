@@ -3,6 +3,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -246,5 +247,33 @@ public class SafeDirectionGUI extends JFrame {
 	public void updatePathFound(boolean newPathFound) {
 		this.pathFound = newPathFound;
 	}
-
+	/*
+	public static void connect() {
+	      Connection con = null;
+	      String user = "guest";
+	      String password = "a1234567";
+	      //String url = "jdbc:mysql://14.52.88.30:3306/user_info?serverTimezone=UTC";
+	      String url = "jdbc:mysql://14.52.88.30:3306/user_info?useSSL=false";
+	      try {
+	         Class.forName("com.mysql.cj.jdbc.Driver");
+	         con = DriverManager.getConnection(url, user, password);
+	         
+	      } catch (ClassNotFoundException e) {
+	         e.printStackTrace();
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      } finally {
+	         try {
+	            if (con != null) {
+	               System.out.println("¼º°ø!\n");
+	               con.close();
+	            }
+	         } catch (SQLException e) {
+	            e.printStackTrace();
+	         }
+	      }
+	}
+	*/
 }
