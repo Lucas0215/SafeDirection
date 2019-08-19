@@ -28,6 +28,7 @@ public class SafeDirectionGUI extends JFrame {
 	private boolean pathFound = false;
 	private List<String> markVList = new ArrayList<String>();
 	private List<MapGraph.MapVertex> path = new ArrayList<MapGraph.MapVertex>();
+	private List<MapGraph.MapVertex> defaultPath = new ArrayList<MapGraph.MapVertex>();
 	
 	private static MapPanel mapPanel = null;
 
@@ -64,6 +65,7 @@ public class SafeDirectionGUI extends JFrame {
             	if(v1!=null && v2!=null) {
             		SafeAStarSearch astar = new SafeAStarSearch(mg);
             		path = astar.AStarSearch(v1.getId(), v2.getId(), true);
+            		defaultPath = astar.AStarSearch(v1.getId(), v2.getId(), false);
             		pathFound = true;
             		repaint();
             	}
@@ -172,10 +174,7 @@ public class SafeDirectionGUI extends JFrame {
 				w = (int) (mapImage.getWidth(null)*scaleRatio);
 				h = (int) (mapImage.getHeight(null)*scaleRatio);
 				g.drawImage(mapImage,0,0,w,h,null);
-				if(pathFound) {
-					g.setColor(new Color(255,0,0,255));
-				}
-				else if(Settings.displayMode==0) {
+				if(Settings.displayMode==0) {
 					g.setColor(new Color(0,0,0,0));
 				}
 				else if(Settings.displayMode==1) {
@@ -183,6 +182,7 @@ public class SafeDirectionGUI extends JFrame {
 				}
 				for(MapGraph.MapEdge e : mg.getEdgeSet()) {
 					if(pathFound) {
+						g.setColor(new Color(0,0,255,255));
 						for(int i=0; i<path.size()-1; i++) {
 							if(e.equals(mg.getEdge(path.get(i), path.get(i+1)))) {
 								MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
@@ -190,6 +190,15 @@ public class SafeDirectionGUI extends JFrame {
 								g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
 							}
 						}
+						g.setColor(new Color(255,0,0,255));
+						for(int i=0; i<defaultPath.size()-1; i++) {
+							if(e.equals(mg.getEdge(defaultPath.get(i), defaultPath.get(i+1)))) {
+								MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
+								MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
+								g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
+							}
+						}
+						
 					}
 					else {
 						MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
@@ -201,7 +210,13 @@ public class SafeDirectionGUI extends JFrame {
 				}
 				for(MapGraph.MapVertex v : mg.getVertexSet()) {
 					if(pathFound) {
+						g.setColor(new Color(0,0,255,255));
 						if(path.contains(v)) {
+							g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
+							g.drawString(v.getName(), (int)(v.getX()*scaleRatio), (int)(v.getY()*scaleRatio)+10);
+						}
+						g.setColor(new Color(255,0,0,255));
+						if(defaultPath.contains(v)) {
 							g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
 							g.drawString(v.getName(), (int)(v.getX()*scaleRatio), (int)(v.getY()*scaleRatio)+10);
 						}

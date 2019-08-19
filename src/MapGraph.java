@@ -190,6 +190,7 @@ public class MapGraph {
 		for(MapVertex v : vertices) {
 			v.predecessor = null;
 			v.cost = Double.MAX_VALUE;
+			v.heuristic = Double.MAX_VALUE;
 		}
 	}
 
@@ -236,12 +237,12 @@ public class MapGraph {
 	public double getSafetyCost(MapVertex v, MapVertex u) {
 		MapEdge e = getEdge(v,u);
 		if(e!=null) {
-			return Settings.cctvImp * ((e.cctvNum / e.length) > 0.02 ? 0 : (0.02 - (e.cctvNum / e.length))) * e.length * 1.5
-			+ Settings.shelterImp * ((e.shelterNum / e.length) > 0.02 ? 0 : (0.02 - (e.shelterNum / e.length))) * e.length * 1.5
-			+ Settings.convenienceImp * ((e.convenienceNum / e.length) > 0.02 ? 0 : (0.02 - (e.convenienceNum / e.length))) * e.length * 1.5
-			+ Settings.widthImp * (e.averageWidth > 10 ? 0 : (10 - e.averageWidth)) * e.length * 0.001
+			return Settings.cctvImp * ((e.cctvNum / e.length) > 0.02 ? 0 : (0.02 - (e.cctvNum / e.length))) * e.length * 5
+			+ Settings.shelterImp * ((e.shelterNum / e.length) > 0.02 ? 0 : (0.02 - (e.shelterNum / e.length))) * e.length * 5
+			+ Settings.convenienceImp * ((e.convenienceNum / e.length) > 0.02 ? 0 : (0.02 - (e.convenienceNum / e.length))) * e.length * 5
+			+ Settings.widthImp * (e.averageWidth > 10 ? 0 : (10 - e.averageWidth)) * e.length * 0.01
 			+ Settings.brightnessImp * (1 - e.averageBrightness) * 0.1 * e.length
-			+ Settings.adultEntImp * e.adultEntNum * 2
+			+ Settings.adultEntImp * e.adultEntNum * 1.5
 			+ Settings.constructionImp * e.constructionNum * 5;
 		}
 		return 0;

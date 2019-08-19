@@ -18,6 +18,8 @@ public class SafeAStarSearch {
     	MapGraph.MapVertex endv = mg.findVertexById(endId);
     	
     	mg.initCosts();
+    	frontier.clear();
+    	explored.clear();
     	
     	startv.updateCost(0, mg.getDistance(startv, endv), null);
     	frontier.add(startv);
@@ -44,7 +46,7 @@ public class SafeAStarSearch {
     				u.updateCost(cost, mg.getDistance(u, endv), v.getId());
     				frontier.add(u);
     			}
-    			else if(frontier.contains(u) && u.getCost() > v.getCost() + mg.getEdgeCost(v, u)) {
+    			else if(frontier.contains(u) && u.getCost() > v.getCost() +  + mg.getSafetyCost(v, u) + mg.getEdgeCost(v, u)) {
     				frontier.remove(u);
     				double cost;
     				if(safetyMode) {

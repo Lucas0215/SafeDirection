@@ -495,7 +495,7 @@
 		<edge>
 			<node id="44" />
 			<node id="46" />
-			<length>51</length>
+			<length>48</length>
 			<width>7</width>
 			<constructNum>0</constructNum>
 			<adultEntNum>0</adultEntNum>
@@ -1344,8 +1344,8 @@
 			<width>7</width>
 			<constructNum>0</constructNum>
 			<adultEntNum>0</adultEntNum>
-			<cctvNum>1</cctvNum>
-			<convNum>0</convNum>
+			<cctvNum>0</cctvNum>
+			<convNum>1</convNum>
 			<shelterNum>0</shelterNum>
 			<brightness>1.0</brightness>
 			<reputation />
