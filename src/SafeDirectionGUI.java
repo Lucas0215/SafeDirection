@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,8 +8,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 public class SafeDirectionGUI extends JFrame {
@@ -66,7 +63,7 @@ public class SafeDirectionGUI extends JFrame {
             		SafeAStarSearch astar = new SafeAStarSearch(mg);
             		path = astar.AStarSearch(v1.getId(), v2.getId(), true);
             		defaultPath = astar.AStarSearch(v1.getId(), v2.getId(), false);
-            		pathFound = true;
+            		updatePathFound(true);
             		repaint();
             	}
             }
@@ -76,7 +73,7 @@ public class SafeDirectionGUI extends JFrame {
             public void mouseReleased(MouseEvent e) {
             	startNameInput.setText("");
             	endNameInput.setText("");
-            	pathFound = false;
+            	updatePathFound(false);
             	repaint();
             }
 		});
@@ -106,7 +103,7 @@ public class SafeDirectionGUI extends JFrame {
 		settingsBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            	pathFound = false;
+            	updatePathFound(false);
             	repaint();
         		settingsDialog = new SettingsDialog(frame,"¼³Á¤", mg, scaleRatio);
         		settingsDialog.setVisible(true);
@@ -174,20 +171,21 @@ public class SafeDirectionGUI extends JFrame {
 				w = (int) (mapImage.getWidth(null)*scaleRatio);
 				h = (int) (mapImage.getHeight(null)*scaleRatio);
 				g.drawImage(mapImage,0,0,w,h,null);
-				if(Settings.displayMode==0) {
+				if(Settings.getDisplayMode()==0) {
 					g.setColor(new Color(0,0,0,0));
 				}
-				else if(Settings.displayMode==1) {
+				else if(Settings.getDisplayMode()==1) {
 					g.setColor(new Color(0,0,0,255));
 				}
 				for(MapGraph.MapEdge e : mg.getEdgeSet()) {
-					if(pathFound) {
+					if(pathIsFound()) {
 						g.setColor(new Color(0,0,255,255));
 						for(int i=0; i<path.size()-1; i++) {
 							if(e.equals(mg.getEdge(path.get(i), path.get(i+1)))) {
 								MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
 								MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
-								g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
+								if(a1!=null && a2!=null)
+									g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
 							}
 						}
 						g.setColor(new Color(255,0,0,255));
@@ -195,7 +193,8 @@ public class SafeDirectionGUI extends JFrame {
 							if(e.equals(mg.getEdge(defaultPath.get(i), defaultPath.get(i+1)))) {
 								MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
 								MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
-								g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
+								if(a1!=null && a2!=null)
+									g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
 							}
 						}
 						
@@ -203,13 +202,14 @@ public class SafeDirectionGUI extends JFrame {
 					else {
 						MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
 						MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
-						if(Settings.displayMode/2%2 == 1) {
-							g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
+						if(Settings.getDisplayMode()/2%2 == 1) {
+							if(a1!=null && a2!=null)
+								g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
 						}
 					}
 				}
 				for(MapGraph.MapVertex v : mg.getVertexSet()) {
-					if(pathFound) {
+					if(pathIsFound()) {
 						g.setColor(new Color(0,0,255,255));
 						if(path.contains(v)) {
 							g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
@@ -222,10 +222,10 @@ public class SafeDirectionGUI extends JFrame {
 						}
 					}
 					else {
-						if(Settings.displayMode%2 == 1) {
+						if(Settings.getDisplayMode()%2 == 1) {
 							g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
 						}
-						if(Settings.displayMode/2/2%2 == 1) {
+						if(Settings.getDisplayMode()/2/2%2 == 1) {
 							g.drawString(v.getName(), (int)(v.getX()*scaleRatio), (int)(v.getY()*scaleRatio)+10);
 						}
 					}
@@ -237,6 +237,14 @@ public class SafeDirectionGUI extends JFrame {
 	public static void main(String[] args) {
 		MapGraph graph = new MapGraph();
 		LoginUI ui = new LoginUI();
+	}
+	
+	public boolean pathIsFound() {
+		return pathFound;
+	}
+	
+	public void updatePathFound(boolean newPathFound) {
+		this.pathFound = newPathFound;
 	}
 
 }

@@ -17,6 +17,9 @@ public class SafeAStarSearch {
     	MapGraph.MapVertex startv = mg.findVertexById(startId);
     	MapGraph.MapVertex endv = mg.findVertexById(endId);
     	
+    	if(startv == null || endv == null)
+    		return new ArrayList<>();
+    	
     	mg.initCosts();
     	frontier.clear();
     	explored.clear();

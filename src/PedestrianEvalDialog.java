@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
 public class PedestrianEvalDialog extends JDialog {
 	
@@ -76,8 +74,8 @@ public class PedestrianEvalDialog extends JDialog {
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                	x = (int) (e.getX()/scaleRatio);
-                	y = (int) (e.getY()/scaleRatio);
+                	x = (int) (e.getX()/getScaleRatio());
+                	y = (int) (e.getY()/getScaleRatio());
                 }
 
                 @Override
@@ -136,8 +134,8 @@ public class PedestrianEvalDialog extends JDialog {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			if(mapImage != null) {
-				w = (int) (mapImage.getWidth(null)*scaleRatio);
-				h = (int) (mapImage.getHeight(null)*scaleRatio);
+				w = (int) (mapImage.getWidth(null)*getScaleRatio());
+				h = (int) (mapImage.getHeight(null)*getScaleRatio());
 				g.drawImage(mapImage,0,0,w,h,null);
 				for(MapGraph.MapEdge e : mg.getEdgeSet()) {
 					MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
@@ -153,7 +151,8 @@ public class PedestrianEvalDialog extends JDialog {
 					else {
 						g.setColor(new Color(0,0,0,255));
 					}
-					g.drawLine((int)(a1.getX()*scaleRatio), (int)(a1.getY()*scaleRatio), (int)(a2.getX()*scaleRatio), (int)(a2.getY()*scaleRatio));
+					if(a1 != null && a2 != null)
+						g.drawLine((int)(a1.getX()*getScaleRatio()), (int)(a1.getY()*getScaleRatio()), (int)(a2.getX()*getScaleRatio()), (int)(a2.getY()*getScaleRatio()));
 				}
 				for(MapGraph.MapVertex v : mg.getVertexSet()) {
 					if(selectedVertex.contains(v)) {
@@ -165,8 +164,8 @@ public class PedestrianEvalDialog extends JDialog {
 					else {
 						g.setColor(new Color(0,0,0,255));
 					}
-					g.fillOval((int)(v.getX()*scaleRatio)-5, (int)(v.getY()*scaleRatio)-5, 10, 10);
-					g.drawString(v.getName(), (int)(v.getX()*scaleRatio), (int)(v.getY()*scaleRatio)+10);
+					g.fillOval((int)(v.getX()*getScaleRatio())-5, (int)(v.getY()*getScaleRatio())-5, 10, 10);
+					g.drawString(v.getName(), (int)(v.getX()*getScaleRatio()), (int)(v.getY()*getScaleRatio())+10);
 				}
 			}
 		}
@@ -183,5 +182,9 @@ public class PedestrianEvalDialog extends JDialog {
 			evaluateInput.setVisible(true);
 			evaluateBtn.setVisible(true);
 		}
+	}
+	
+	public double getScaleRatio() {
+		return scaleRatio;
 	}
 }

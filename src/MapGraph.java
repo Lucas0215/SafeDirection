@@ -56,7 +56,7 @@ public class MapGraph {
 		
 		public Set<MapVertex> getNeighbors() {
 			Set<MapVertex> neighbors = new HashSet<>();
-			for(MapEdge e : edges) {
+			for(MapEdge e : getEdgeSet()) {
 				MapVertex anotherV = e.getAnotherVertex(this);
 				if(anotherV != null) {
 					neighbors.add(anotherV);
@@ -80,9 +80,11 @@ public class MapGraph {
 		public int compareTo(Object o) {
 			if(o instanceof MapVertex) {
 				MapVertex cv = (MapVertex) o;
-				if(cv.cost + cv.heuristic < this.cost + this.heuristic)
+				double g1 = cv.cost + cv.heuristic;
+				double g2 = this.cost + this.heuristic;
+				if(g1 < g2)
 					return 1;
-				else if(cv.cost + cv.heuristic > this.cost + this.heuristic)
+				else if(g1 > g2)
 					return -1;
 				else
 					return 0;
@@ -218,11 +220,11 @@ public class MapGraph {
 	
 	public MapEdge getEdge(MapVertex v, MapVertex u) {
 		for(MapEdge e : edges) {
-			if(findVertexById(e.getAdjacentNode(0)) == null || findVertexById(e.getAdjacentNode(1)) == null)
-				continue;
-			if((findVertexById(e.getAdjacentNode(0)).equals(v) && findVertexById(e.getAdjacentNode(1)).equals(u)) ||
-					(findVertexById(e.getAdjacentNode(0)).equals(u) && findVertexById(e.getAdjacentNode(1)).equals(v)))
-				return e;
+			if(findVertexById(e.getAdjacentNode(0)) != null || findVertexById(e.getAdjacentNode(1)) != null) {
+				if((findVertexById(e.getAdjacentNode(0)).equals(v) && findVertexById(e.getAdjacentNode(1)).equals(u)) ||
+						(findVertexById(e.getAdjacentNode(0)).equals(u) && findVertexById(e.getAdjacentNode(1)).equals(v)))
+					return e;
+			}
 		}
 		return null;
 	}
@@ -237,13 +239,13 @@ public class MapGraph {
 	public double getSafetyCost(MapVertex v, MapVertex u) {
 		MapEdge e = getEdge(v,u);
 		if(e!=null) {
-			return Settings.cctvImp * ((e.cctvNum / e.length) > 0.02 ? 0 : (0.02 - (e.cctvNum / e.length))) * e.length * 5
-			+ Settings.shelterImp * ((e.shelterNum / e.length) > 0.02 ? 0 : (0.02 - (e.shelterNum / e.length))) * e.length * 5
-			+ Settings.convenienceImp * ((e.convenienceNum / e.length) > 0.02 ? 0 : (0.02 - (e.convenienceNum / e.length))) * e.length * 5
-			+ Settings.widthImp * (e.averageWidth > 10 ? 0 : (10 - e.averageWidth)) * e.length * 0.01
-			+ Settings.brightnessImp * (1 - e.averageBrightness) * 0.1 * e.length
-			+ Settings.adultEntImp * e.adultEntNum * 1.5
-			+ Settings.constructionImp * e.constructionNum * 5;
+			return Settings.getCctvImp() * ((e.cctvNum / e.length) > 0.02 ? 0 : (0.02 - (e.cctvNum / e.length))) * e.length * 5
+			+ Settings.getShelterImp() * ((e.shelterNum / e.length) > 0.02 ? 0 : (0.02 - (e.shelterNum / e.length))) * e.length * 5
+			+ Settings.getConvenienceImp() * ((e.convenienceNum / e.length) > 0.02 ? 0 : (0.02 - (e.convenienceNum / e.length))) * e.length * 5
+			+ Settings.getWidthImp() * (e.averageWidth > 10 ? 0 : (10 - e.averageWidth)) * e.length * 0.01
+			+ Settings.getBrightnessImp() * (1 - e.averageBrightness) * 0.1 * e.length
+			+ Settings.getAdultEntImp() * e.adultEntNum * 1.5
+			+ Settings.getConstructionImp() * e.constructionNum * 5;
 		}
 		return 0;
 	}
@@ -252,9 +254,11 @@ public class MapGraph {
 		List<MapVertex> path = new ArrayList<>();
 		MapVertex v = findVertexById(endId);
 		path.add(v);
+		if(v != null) {
 		while(v.predecessor!=null) {
-			v = findVertexById(v.predecessor);
-			path.add(v);
+				v = findVertexById(v.predecessor);
+				path.add(v);
+			}
 		}
 		return path;
 	}

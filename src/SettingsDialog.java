@@ -1,12 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class SettingsDialog extends JDialog {
@@ -38,27 +34,27 @@ public class SettingsDialog extends JDialog {
 		settingsPanel.add(new JPanel());
 		
 		JLabel markCCTV = new JLabel("CCTV :");	
-		JSlider slideCCTV = new JSlider(JSlider.HORIZONTAL,0,100,Settings.cctvImp);
+		JSlider slideCCTV = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getCctvImp());
 		settingsPanel.add(markCCTV);
 		settingsPanel.add(slideCCTV);
 		
 		JLabel markShelter = new JLabel("여성안심지킴이집 :");
-		JSlider slideShelter = new JSlider(JSlider.HORIZONTAL,0,100,Settings.shelterImp);
+		JSlider slideShelter = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getShelterImp());
 		settingsPanel.add(markShelter);
 		settingsPanel.add(slideShelter);
 		
 		JLabel markConv = new JLabel("24시 편의점 :");
-		JSlider slideConv = new JSlider(JSlider.HORIZONTAL,0,100,Settings.convenienceImp);
+		JSlider slideConv = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getConvenienceImp());
 		settingsPanel.add(markConv);
 		settingsPanel.add(slideConv);
 		
 		JLabel markWidth = new JLabel("길의 폭 :");	
-		JSlider slideWidth = new JSlider(JSlider.HORIZONTAL,0,100,Settings.widthImp);
+		JSlider slideWidth = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getWidthImp());
 		settingsPanel.add(markWidth);
 		settingsPanel.add(slideWidth);
 		
 		JLabel markBrightness = new JLabel("길의 밝기 :");
-		JSlider slideBrightness = new JSlider(JSlider.HORIZONTAL,0,100,Settings.brightnessImp);
+		JSlider slideBrightness = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getBrightnessImp());
 		settingsPanel.add(markBrightness);
 		settingsPanel.add(slideBrightness);
 		
@@ -71,12 +67,12 @@ public class SettingsDialog extends JDialog {
 		settingsPanel.add(new JPanel());
 		
 		JLabel markAdult = new JLabel("술집/유흥가 :");
-		JSlider slideAdult = new JSlider(JSlider.HORIZONTAL,0,100,Settings.adultEntImp);
+		JSlider slideAdult = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getAdultEntImp());
 		settingsPanel.add(markAdult);
 		settingsPanel.add(slideAdult);
 		
 		JLabel markConst = new JLabel("공사 장소 :");
-		JSlider slideConst = new JSlider(JSlider.HORIZONTAL,0,100,Settings.constructionImp);
+		JSlider slideConst = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getConstructionImp());
 		settingsPanel.add(markConst);
 		settingsPanel.add(slideConst);
 		
@@ -87,9 +83,9 @@ public class SettingsDialog extends JDialog {
 		displaySet.setFont(new Font("",Font.BOLD,20));
 		settingsPanel.add(displaySet);
 		settingsPanel.add(new JPanel());
-		JCheckBox seeVertices = new JCheckBox("노드 보이기", Settings.displayMode%2>0?true:false);
-		JCheckBox seeEdges = new JCheckBox("간선 보이기", Settings.displayMode/2%2>0?true:false);
-		JCheckBox seeNames = new JCheckBox("이름 보이기", Settings.displayMode/2/2%2>0?true:false);
+		JCheckBox seeVertices = new JCheckBox("노드 보이기", Settings.getDisplayMode()%2>0?true:false);
+		JCheckBox seeEdges = new JCheckBox("간선 보이기", Settings.getDisplayMode()/2%2>0?true:false);
+		JCheckBox seeNames = new JCheckBox("이름 보이기", Settings.getDisplayMode()/2/2%2>0?true:false);
 		settingsPanel.add(seeVertices);
 		settingsPanel.add(seeEdges);
 		settingsPanel.add(seeNames);
@@ -109,14 +105,14 @@ public class SettingsDialog extends JDialog {
 		JButton aboutUsBtn = new JButton("About Us");
 		setBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Settings.displayMode = (seeVertices.isSelected()?1:0)+(seeEdges.isSelected()?2:0)+(seeNames.isSelected()?4:0);
-				Settings.cctvImp = slideCCTV.getValue();
-				Settings.shelterImp = slideShelter.getValue();
-				Settings.convenienceImp = slideConv.getValue();
-				Settings.widthImp = slideWidth.getValue();
-				Settings.brightnessImp = slideBrightness.getValue();
-				Settings.adultEntImp = slideAdult.getValue();
-				Settings.constructionImp = slideConst.getValue();
+				Settings.setDisplayMode((seeVertices.isSelected()?1:0)+(seeEdges.isSelected()?2:0)+(seeNames.isSelected()?4:0));
+				Settings.setCctvImp(slideCCTV.getValue());
+				Settings.setShelterImp(slideShelter.getValue());
+				Settings.setConvenienceImp(slideConv.getValue());
+				Settings.setWidthImp(slideWidth.getValue());
+				Settings.setBrightnessImp(slideBrightness.getValue());
+				Settings.setAdultEntImp(slideAdult.getValue());
+				Settings.setConstructionImp(slideConst.getValue());
 				setVisible(false);
 				frame.repaint();
 			}
