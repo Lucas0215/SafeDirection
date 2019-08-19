@@ -81,7 +81,7 @@ public class PedestrianEvalDialog extends JDialog {
                 @Override
                 public void mouseReleased(MouseEvent e) {
 					if(selectedVertex.size() > 1) {
-						selectedEdge = null;
+						selectEdge(null);
 						updateWayInfo();
 						selectedVertex.clear();
 						highlightedVertex.clear();
@@ -100,7 +100,7 @@ public class PedestrianEvalDialog extends JDialog {
     								highlightedVertex.clear();
     							}
     							else {
-    								selectedEdge = null;
+    								selectEdge(null);
     								updateWayInfo();
     								selectedVertex.clear();
     								highlightedVertex.clear();
@@ -110,7 +110,7 @@ public class PedestrianEvalDialog extends JDialog {
     						return;
     					}
     				}
-					selectedEdge = null;
+					selectEdge(null);
 					updateWayInfo();
 					selectedVertex.clear();
 					highlightedVertex.clear();
@@ -141,7 +141,7 @@ public class PedestrianEvalDialog extends JDialog {
 					MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
 					MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
 					if(selectedVertex.contains(a1) && selectedVertex.contains(a2)) {
-						selectedEdge = e;
+						selectEdge(e);
 						updateWayInfo();
 						g.setColor(new Color(255,0,0,255));
 					}
@@ -186,5 +186,13 @@ public class PedestrianEvalDialog extends JDialog {
 	
 	public double getScaleRatio() {
 		return scaleRatio;
+	}
+	
+	public void selectEdge(MapGraph.MapEdge edgeSel) {
+		selectedEdge = edgeSel;
+	}
+	
+	public MapGraph.MapEdge getSelectedEdge() {
+		return selectedEdge;
 	}
 }

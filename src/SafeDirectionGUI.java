@@ -27,7 +27,7 @@ public class SafeDirectionGUI extends JFrame {
 	private List<MapGraph.MapVertex> path = new ArrayList<MapGraph.MapVertex>();
 	private List<MapGraph.MapVertex> defaultPath = new ArrayList<MapGraph.MapVertex>();
 	
-	private static MapPanel mapPanel = null;
+	private MapPanel mapPanel = null;
 
 	public SafeDirectionGUI(MapGraph graph) {
 		

@@ -4,7 +4,20 @@ public class SafeAStarSearch {
 	
 	private MapGraph mg = null;
 	
-	private Queue<MapGraph.MapVertex> frontier = new PriorityQueue<>();
+	Comparator<MapGraph.MapVertex> vertexComparator = new Comparator<MapGraph.MapVertex>() {
+         @Override
+         public int compare(MapGraph.MapVertex v, MapGraph.MapVertex u) {
+        	 double g1 = v.getCost() + v.getHeuristic();
+        	 double g2 = u.getCost() + u.getHeuristic();
+				if(g1 < g2)
+					return -1;
+				else if(g1 > g2)
+					return 1;
+				else
+					return 0;
+         }
+     };
+	private Queue<MapGraph.MapVertex> frontier = new PriorityQueue<>(vertexComparator);
     
     private List<String> explored = new ArrayList<>();
     

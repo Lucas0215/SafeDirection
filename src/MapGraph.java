@@ -6,7 +6,7 @@ import org.w3c.dom.NodeList;
 
 public class MapGraph {
 	
-	class MapVertex implements Comparable {
+	class MapVertex {
 		private String id;
 		private String name;
 		private int x, y;
@@ -74,22 +74,6 @@ public class MapGraph {
 					return false;
 			}
 			else return false;
-		}
-
-		@Override
-		public int compareTo(Object o) {
-			if(o instanceof MapVertex) {
-				MapVertex cv = (MapVertex) o;
-				double g1 = cv.cost + cv.heuristic;
-				double g2 = this.cost + this.heuristic;
-				if(g1 < g2)
-					return 1;
-				else if(g1 > g2)
-					return -1;
-				else
-					return 0;
-			}
-			return 1;
 		}
 		
 		@Override
@@ -220,9 +204,11 @@ public class MapGraph {
 	
 	public MapEdge getEdge(MapVertex v, MapVertex u) {
 		for(MapEdge e : edges) {
-			if(findVertexById(e.getAdjacentNode(0)) != null || findVertexById(e.getAdjacentNode(1)) != null) {
-				if((findVertexById(e.getAdjacentNode(0)).equals(v) && findVertexById(e.getAdjacentNode(1)).equals(u)) ||
-						(findVertexById(e.getAdjacentNode(0)).equals(u) && findVertexById(e.getAdjacentNode(1)).equals(v)))
+			MapVertex adj1 = findVertexById(e.getAdjacentNode(0));
+			MapVertex adj2 = findVertexById(e.getAdjacentNode(1));
+			if(adj1 != null && adj2 != null) {
+				if(adj1.equals(v) && adj2.equals(u) ||
+						adj1.equals(u) && adj2.equals(v))
 					return e;
 			}
 		}
@@ -257,6 +243,8 @@ public class MapGraph {
 		if(v != null) {
 		while(v.predecessor!=null) {
 				v = findVertexById(v.predecessor);
+				if(v == null)
+					break;
 				path.add(v);
 			}
 		}
