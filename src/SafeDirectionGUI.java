@@ -30,7 +30,7 @@ public class SafeDirectionGUI extends JFrame {
 	
 	private MapPanel mapPanel = null;
 
-	public SafeDirectionGUI(MapGraph graph) {
+	public SafeDirectionGUI(MapGraph graph, int[] settingData) {
 		
 		setTitle("안전길찾기 ver1.0");
 		mg = graph;
@@ -160,7 +160,6 @@ public class SafeDirectionGUI extends JFrame {
 			try {
 				mapImage = ImageIO.read(f);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -247,33 +246,5 @@ public class SafeDirectionGUI extends JFrame {
 	public void updatePathFound(boolean newPathFound) {
 		this.pathFound = newPathFound;
 	}
-	/*
-	public static void connect() {
-	      Connection con = null;
-	      String user = "guest";
-	      String password = "a1234567";
-	      //String url = "jdbc:mysql://14.52.88.30:3306/user_info?serverTimezone=UTC";
-	      String url = "jdbc:mysql://14.52.88.30:3306/user_info?useSSL=false";
-	      try {
-	         Class.forName("com.mysql.cj.jdbc.Driver");
-	         con = DriverManager.getConnection(url, user, password);
-	         
-	      } catch (ClassNotFoundException e) {
-	         e.printStackTrace();
-	      } catch (SQLException e) {
-	         e.printStackTrace();
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	      } finally {
-	         try {
-	            if (con != null) {
-	               System.out.println("성공!\n");
-	               con.close();
-	            }
-	         } catch (SQLException e) {
-	            e.printStackTrace();
-	         }
-	      }
-	}
-	*/
+	
 }

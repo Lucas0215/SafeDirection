@@ -68,7 +68,7 @@ class LoginUI extends JFrame {
       if (searchUser(IDBox.getText(), passwordBox.getText())) {
          dispose();
          MapGraph graph = new MapGraph();
-         SafeDirectionGUI gui = new SafeDirectionGUI(graph);
+         SafeDirectionGUI gui = new SafeDirectionGUI(graph, new int[7]);
       }
    }
 

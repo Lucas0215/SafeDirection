@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class PedestrianEvalDialog extends JDialog {
+public class AdministratorDialog extends JDialog {
 	
 	private MapGraph mg = null;
 	private double scaleRatio = 0.75;
@@ -28,10 +30,11 @@ public class PedestrianEvalDialog extends JDialog {
 	
 	private JPanel infoPane = null;
 	private JLabel wayInfo = null;
-	private JTextField evaluateInput = null;
-	private JButton evaluateBtn = null;
+	private JPanel editPane = null;
+	private JTextField[] editInputs = new JTextField[8];
+	private JButton setBtn = null;
 	
-	public PedestrianEvalDialog(JFrame frame, String title, MapGraph mg, double scaleRatio) {
+	public AdministratorDialog(JFrame frame, String title, MapGraph mg, double scaleRatio) {
 		super(frame, title);
 		this.mg = mg;
 		this.scaleRatio = scaleRatio;
@@ -42,15 +45,24 @@ public class PedestrianEvalDialog extends JDialog {
 		infoPane.setBackground(Color.LIGHT_GRAY);
 		
 		wayInfo = new JLabel();
-		evaluateInput = new JTextField(3);
-		evaluateBtn = new JButton("평가하기");
+		wayInfo.setFont(new Font("",Font.PLAIN,15));
+		editPane = new JPanel();
+		GridLayout editLayout = new GridLayout(10,1);
+		editPane.setLayout(editLayout);
+		editPane.add(new JPanel());
+		editPane.add(new JPanel());
+		for(int i=0; i<editInputs.length; i++) {
+			editInputs[i] = new JTextField(3);
+			editPane.add(editInputs[i]);
+		}
+		setBtn = new JButton("설정");
 		
-		evaluateInput.setVisible(false);
-		evaluateBtn.setVisible(false);
+		editPane.setVisible(false);
+		setBtn.setVisible(false);
 		
 		infoPane.add(wayInfo);
-		infoPane.add(evaluateInput);
-		infoPane.add(evaluateBtn);
+		infoPane.add(editPane);
+		infoPane.add(setBtn);
 		
 		add(infoPane,BorderLayout.SOUTH);
 		
@@ -125,6 +137,7 @@ public class PedestrianEvalDialog extends JDialog {
 			try {
 				mapImage = ImageIO.read(f);
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -173,13 +186,13 @@ public class PedestrianEvalDialog extends JDialog {
 	public void updateWayInfo() {
 		if(selectedEdge == null) {
 			wayInfo.setText("");
-			evaluateInput.setVisible(false);
-			evaluateBtn.setVisible(false);
+			editPane.setVisible(false);
+			setBtn.setVisible(false);
 		}
 		else {
 			wayInfo.setText("<html>" + selectedEdge.toString().replace("\n","<br/>") + "</html>");
-			evaluateInput.setVisible(true);
-			evaluateBtn.setVisible(true);
+			editPane.setVisible(true);
+			setBtn.setVisible(true);
 		}
 	}
 	

@@ -11,6 +11,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.EmptyBorder;
@@ -18,6 +19,9 @@ import javax.swing.border.EmptyBorder;
 public class SettingsDialog extends JDialog {
 	private MapGraph mg = null;
 	private double scaleRatio = 0.75;
+	
+	private AdministratorDialog adminDialog = null;
+	
 	public SettingsDialog(JFrame frame, String title, MapGraph mg, double scaleRatio) {
 		super(frame, title);
 		this.mg = mg;
@@ -95,12 +99,13 @@ public class SettingsDialog extends JDialog {
 		JPanel scPanel = new JPanel();
 		scPanel.setBackground(Color.LIGHT_GRAY);
 		
-		GridLayout scLayout = new GridLayout(1,2);
+		GridLayout scLayout = new GridLayout(1,5);
 		scLayout.setVgap(5);
 		scPanel.setLayout(scLayout);
 		
 		JButton setBtn = new JButton("설정");
 		JButton cancelBtn = new JButton("취소");
+		JButton helpBtn = new JButton("도움말");
 		JButton adminBtn = new JButton("관리자 설정");
 		JButton aboutUsBtn = new JButton("About Us");
 		setBtn.addActionListener(new ActionListener() {
@@ -122,8 +127,25 @@ public class SettingsDialog extends JDialog {
 				setVisible(false);
 			}
 		});
+		helpBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "지도는 시연을 위해 임의로 만들어졌으며\n각각의 표시들은 다음과 같은 시설을 의미합니다\n빨간색 원 : 공사장소\n주황색 원 : 술집/유흥가\n초록색 원 : CCTV\n파란색 원 : 24시간 편의점\n보라색 원 : 여성안심지킴이집\n검은색 실선 : 밝기가 낮은 길", "도움말", JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+		adminBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+        		adminDialog = new AdministratorDialog(frame,"관리자 페이지", mg, scaleRatio);
+        		adminDialog.setVisible(true);
+			}
+		});
+		aboutUsBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "캐발보안의 해적", "About Us", JOptionPane.PLAIN_MESSAGE);
+			}
+		});
 		scPanel.add(setBtn);
 		scPanel.add(cancelBtn);
+		scPanel.add(helpBtn);
 		scPanel.add(adminBtn);
 		scPanel.add(aboutUsBtn);
 		

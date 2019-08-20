@@ -1,12 +1,17 @@
+import java.io.IOException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
  
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class MapXMLParser {
 	
@@ -23,10 +28,16 @@ public class MapXMLParser {
 		NodeList vertices = (NodeList) xpath.compile("//map/nodeSet/node").evaluate(document, XPathConstants.NODESET);
 		
 		return vertices;
-		} catch (Exception e) {
+		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
-			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	public NodeList parseEdges() {
@@ -42,12 +53,16 @@ public class MapXMLParser {
 		NodeList edges = (NodeList) xpath.compile("//map/edgeSet/edge").evaluate(document, XPathConstants.NODESET);
 		
 		return edges;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
-			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
 		}
-		
+		return null;
 	}
 	
 }

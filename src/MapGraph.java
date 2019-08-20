@@ -288,7 +288,7 @@ public class MapGraph {
 			
 			int adultEntNum=0;
 			int constructionNum=0;
-			//cctvNum><shelterNum> <convNum><brightness><adultentNum> <constructNum>
+			
 			for(int j=0; j<fields.getLength(); j++) {
 				Node snode = fields.item(j);
 				String nodeName = snode.getNodeName();
