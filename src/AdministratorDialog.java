@@ -1,7 +1,9 @@
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -149,6 +151,7 @@ public class AdministratorDialog extends JDialog {
 				w = (int) (mapImage.getWidth(null)*getScaleRatio());
 				h = (int) (mapImage.getHeight(null)*getScaleRatio());
 				g.drawImage(mapImage,0,0,w,h,null);
+				Graphics2D g2 = (Graphics2D) g;
 				for(MapGraph.MapEdge e : mg.getEdgeSet()) {
 					MapGraph.MapVertex a1 = mg.findVertexById(e.getAdjacentNode(0));
 					MapGraph.MapVertex a2 = mg.findVertexById(e.getAdjacentNode(1));
@@ -156,28 +159,36 @@ public class AdministratorDialog extends JDialog {
 						selectEdge(e);
 						updateWayInfo();
 						g.setColor(new Color(255,0,0,255));
+						g2.setStroke(new BasicStroke(3));
 					}
 					else if((selectedVertex.contains(a1) && highlightedVertex.contains(a2)) || (highlightedVertex.contains(a1) && selectedVertex.contains(a2))) {
 						g.setColor(new Color(0,0,255,255));
+						g2.setStroke(new BasicStroke(3));
 					}
 					else {
 						g.setColor(new Color(0,0,0,255));
+						g2.setStroke(new BasicStroke(1));
 					}
-					if(a1 != null && a2 != null)
+					if(a1 != null && a2 != null) {
 						g.drawLine((int)(a1.getX()*getScaleRatio()), (int)(a1.getY()*getScaleRatio()), (int)(a2.getX()*getScaleRatio()), (int)(a2.getY()*getScaleRatio()));
+					}
 				}
 				for(MapGraph.MapVertex v : mg.getVertexSet()) {
 					if(selectedVertex.contains(v)) {
 						g.setColor(new Color(255,0,0,255));
+						g.fillOval((int)(v.getX()*getScaleRatio())-6, (int)(v.getY()*getScaleRatio())-6, 12, 12);
+						g.drawString(v.getName(), (int)(v.getX()*getScaleRatio()), (int)(v.getY()*getScaleRatio())+10);
 					}
 					else if(highlightedVertex.contains(v)) {
 						g.setColor(new Color(0,0,255,255));
+						g.fillOval((int)(v.getX()*getScaleRatio())-6, (int)(v.getY()*getScaleRatio())-6, 12, 12);
+						g.drawString(v.getName(), (int)(v.getX()*getScaleRatio()), (int)(v.getY()*getScaleRatio())+10);
 					}
 					else {
 						g.setColor(new Color(0,0,0,255));
+						g.fillOval((int)(v.getX()*getScaleRatio())-5, (int)(v.getY()*getScaleRatio())-5, 10, 10);
+						g.drawString(v.getName(), (int)(v.getX()*getScaleRatio()), (int)(v.getY()*getScaleRatio())+10);
 					}
-					g.fillOval((int)(v.getX()*getScaleRatio())-5, (int)(v.getY()*getScaleRatio())-5, 10, 10);
-					g.drawString(v.getName(), (int)(v.getX()*getScaleRatio()), (int)(v.getY()*getScaleRatio())+10);
 				}
 			}
 		}
