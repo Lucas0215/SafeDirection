@@ -378,11 +378,11 @@
 		<edge>
 			<node id="36" />
 			<node id="58" />
-			<length>51</length>
+			<length>50</length>
 			<width>5</width>
 			<constructNum>0</constructNum>
 			<adultEntNum>0</adultEntNum>
-			<cctvNum>1</cctvNum>
+			<cctvNum>2</cctvNum>
 			<convNum>1</convNum>
 			<shelterNum>0</shelterNum>
 			<brightness>1.0</brightness>
@@ -395,7 +395,7 @@
 			<width>3</width>
 			<constructNum>0</constructNum>
 			<adultEntNum>0</adultEntNum>
-			<cctvNum>0</cctvNum>
+			<cctvNum>1</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
 			<brightness>1.0</brightness>
@@ -736,7 +736,7 @@
 			<cctvNum>0</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
-			<brightness>0.0</brightness>
+			<brightness>0.5</brightness>
 			<reputation />
 		</edge>
 		<edge>
@@ -814,7 +814,7 @@
 			<cctvNum>0</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
-			<brightness>0.0</brightness>
+			<brightness>0.5</brightness>
 			<reputation />
 		</edge>
 		<edge>
@@ -911,11 +911,11 @@
 		<edge>
 			<node id="8" />
 			<node id="36" />
-			<length>16</length>
+			<length>13</length>
 			<width>5</width>
 			<constructNum>0</constructNum>
 			<adultEntNum>0</adultEntNum>
-			<cctvNum>0</cctvNum>
+			<cctvNum>1</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
 			<brightness>1.0</brightness>
@@ -931,7 +931,7 @@
 			<cctvNum>0</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
-			<brightness>0.0</brightness>
+			<brightness>0.5</brightness>
 			<reputation />
 		</edge>
 		<edge>
@@ -944,7 +944,7 @@
 			<cctvNum>0</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
-			<brightness>0.0</brightness>
+			<brightness>0.5</brightness>
 			<reputation />
 		</edge>
 		<edge>
@@ -996,7 +996,7 @@
 			<cctvNum>0</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
-			<brightness>0.0</brightness>
+			<brightness>0.5</brightness>
 			<reputation />
 		</edge>
 		<edge>
@@ -1045,7 +1045,7 @@
 			<width>8</width>
 			<constructNum>0</constructNum>
 			<adultEntNum>0</adultEntNum>
-			<cctvNum>1</cctvNum>
+			<cctvNum>2</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
 			<brightness>1.0</brightness>
@@ -1058,7 +1058,7 @@
 			<width>12</width>
 			<constructNum>0</constructNum>
 			<adultEntNum>0</adultEntNum>
-			<cctvNum>1</cctvNum>
+			<cctvNum>2</cctvNum>
 			<convNum>2</convNum>
 			<shelterNum>1</shelterNum>
 			<brightness>1.0</brightness>
@@ -1139,7 +1139,7 @@
 			<cctvNum>0</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
-			<brightness>0.0</brightness>
+			<brightness>0.5</brightness>
 			<reputation />
 		</edge>
 		<edge>
@@ -1295,7 +1295,7 @@
 			<cctvNum>0</cctvNum>
 			<convNum>0</convNum>
 			<shelterNum>0</shelterNum>
-			<brightness>0.0</brightness>
+			<brightness>0.5</brightness>
 			<reputation />
 		</edge>
 		<edge>

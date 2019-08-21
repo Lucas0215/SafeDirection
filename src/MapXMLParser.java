@@ -20,7 +20,7 @@ public class MapXMLParser {
 		DocumentBuilder documentBuilder;
 		try {
 		documentBuilder = dfactory.newDocumentBuilder();
-		Document document = documentBuilder.parse("xml/map_data.xml");
+		Document document = documentBuilder.parse(this.getClass().getResourceAsStream("map_data.xml"));
 		Element root = document.getDocumentElement();
 		XPathFactory xfactory = XPathFactory.newInstance();
 		XPath xpath = xfactory.newXPath();
@@ -45,7 +45,7 @@ public class MapXMLParser {
 		DocumentBuilder documentBuilder;
 		try {
 		documentBuilder = dfactory.newDocumentBuilder();
-		Document document = documentBuilder.parse("xml/map_data.xml");
+		Document document = documentBuilder.parse(this.getClass().getResourceAsStream("map_data.xml"));
 		Element root = document.getDocumentElement();
 		XPathFactory xfactory = XPathFactory.newInstance();
 		XPath xpath = xfactory.newXPath();

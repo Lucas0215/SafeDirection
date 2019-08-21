@@ -212,9 +212,9 @@ public class MapGraph {
 	public double getSafetyCost(MapVertex v, MapVertex u) {
 		MapEdge e = getEdge(v,u);
 		if(e!=null) {
-			return Settings.getCctvImp() * ((e.length - e.cctvNum * 20)>0?(e.length - e.cctvNum * 20):0) * 0.1
-			+ Settings.getShelterImp() * ((e.length - e.shelterNum * 50)>0?(e.length - e.shelterNum * 50):0) * 0.1
-			+ Settings.getConvenienceImp() * ((e.length - e.convenienceNum * 50)>0?(e.length - e.convenienceNum * 50):0) * 0.1
+			return Settings.getCctvImp() * ((e.length - e.cctvNum * 20)>0?(e.length - e.cctvNum * 20):0) * 0.5
+			+ Settings.getShelterImp() * ((e.length - e.shelterNum * 50)>0?(e.length - e.shelterNum * 50):0) * 0.5
+			+ Settings.getConvenienceImp() * ((e.length - e.convenienceNum * 50)>0?(e.length - e.convenienceNum * 50):0) * 0.5
 			+ Settings.getWidthImp() * (e.averageWidth > 10 ? 0 : (10 - e.averageWidth)) * e.length * 0.01
 			+ Settings.getBrightnessImp() * (1 - e.averageBrightness) * e.length * 0.02
 			+ Settings.getAdultEntImp() * e.adultEntNum

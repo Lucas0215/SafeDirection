@@ -37,17 +37,17 @@ public class SettingsDialog extends JDialog {
 		settingsPanel.add(importanceSet);
 		settingsPanel.add(new JPanel());
 		
-		JLabel markCCTV = new JLabel("CCTV : 최대값 - CCTV 범위(20m) 내에 들어오지 않는 길 10m당 안전거리 1m 추가");	
+		JLabel markCCTV = new JLabel("CCTV : 최대값 - CCTV 범위(20m) 내에 들어오지 않는 길 2m당 안전거리 1m 추가");	
 		JSlider slideCCTV = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getCctvImp());
 		settingsPanel.add(markCCTV);
 		settingsPanel.add(slideCCTV);
 		
-		JLabel markShelter = new JLabel("여성안심지킴이집 : 최대값 - 여성안심지킴이집 범위(50m) 내에 들어오지 않는 길 10m당 안전거리 1m 추가");
+		JLabel markShelter = new JLabel("여성안심지킴이집 : 최대값 - 여성안심지킴이집 범위(50m) 내에 들어오지 않는 길 2m당 안전거리 1m 추가");
 		JSlider slideShelter = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getShelterImp());
 		settingsPanel.add(markShelter);
 		settingsPanel.add(slideShelter);
 		
-		JLabel markConv = new JLabel("24시 편의점 : 최대값 - 편의점 범위(50m) 내에 들어오지 않는 길 10m당 안전거리 1m 추가");
+		JLabel markConv = new JLabel("24시 편의점 : 최대값 - 편의점 범위(50m) 내에 들어오지 않는 길 2m당 안전거리 1m 추가");
 		JSlider slideConv = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getConvenienceImp());
 		settingsPanel.add(markConv);
 		settingsPanel.add(slideConv);
@@ -129,7 +129,7 @@ public class SettingsDialog extends JDialog {
 		});
 		helpBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "지도는 시연을 위해 임의로 만들어졌으며\n각각의 표시들은 다음과 같은 시설을 의미합니다\n빨간색 원 : 공사장소\n주황색 원 : 술집/유흥가\n초록색 원 : CCTV\n파란색 원 : 24시간 편의점\n보라색 원 : 여성안심지킴이집\n검은색 실선 : 밝기가 낮은 길", "도움말", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "지도는 시연을 위해 임의로 만들어졌으며\n각각의 표시들은 다음과 같은 시설을 의미합니다\n빨간색 원 : 공사장소\n주황색 원 : 술집/유흥가\n초록색 원 : CCTV\n파란색 원 : 24시간 편의점\n보라색 원 : 여성안심지킴이집\n회색 실선 : 밝기가 낮은 길", "도움말", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		adminBtn.addActionListener(new ActionListener() {

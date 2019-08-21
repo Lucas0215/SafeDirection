@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,11 +134,10 @@ public class AdministratorDialog extends JDialog {
 		}
 		
 		public void setImage() {
-			File f = new File("images/map_image2.jpg");
+			InputStream is = this.getClass().getResourceAsStream("map_image.png");
 			try {
-				mapImage = ImageIO.read(f);
+				mapImage = ImageIO.read(is);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
