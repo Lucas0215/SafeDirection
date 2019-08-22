@@ -139,10 +139,32 @@ public class MapGraph {
 	
 	private Set<MapVertex> vertices = new HashSet<>();
 	private Set<MapEdge> edges = new HashSet<>();
+	private ArrayList<int[]> reput = new ArrayList<>();
 	
 	public MapGraph() {
 		MapXMLParser xmlParser = new MapXMLParser();
 		nodeList2Graph(xmlParser.parseVertices(), xmlParser.parseEdges());
+	}
+	
+	public void loadReputation() {
+		reput = Utils.getReputation();
+	}
+	
+	public double getAverageReputation(String id1, String id2) {
+		int count = 0;
+		double sum = 0;
+		int vid1 = Integer.parseInt(id1);
+		int vid2 = Integer.parseInt(id2);
+		for(int i=0; i<reput.size(); i++) {
+			if((reput.get(i)[0] == vid1 && reput.get(i)[1] == vid2) && (reput.get(i)[0] == vid2 && reput.get(i)[1] == vid1)) {
+				count += 1;
+				sum += reput.get(i)[2];
+			}
+		}
+		if(count > 0)
+			return sum / (double)count;
+		else
+			return 5;
 	}
 	
 	public Set<MapVertex> getVertexSet() {
@@ -224,9 +246,9 @@ public class MapGraph {
 		if(e!=null) {
 			double reputation;
 			if(v.getId().compareTo(u.getId())>0)
-				reputation = Utils.getAverageReputation(u.getId(), v.getId());
+				reputation = getAverageReputation(u.getId(), v.getId());
 			else
-				reputation = Utils.getAverageReputation(v.getId(), u.getId());
+				reputation = getAverageReputation(v.getId(), u.getId());
 			return Settings.getReputationImp() * (5-reputation)
 			+ Settings.getCctvImp() * ((e.length - e.cctvNum * 20)>0?(e.length - e.cctvNum * 20):0) * 0.5
 			+ Settings.getShelterImp() * ((e.length - e.shelterNum * 50)>0?(e.length - e.shelterNum * 50):0) * 0.5

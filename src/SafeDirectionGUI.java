@@ -258,6 +258,7 @@ public class SafeDirectionGUI extends JFrame {
 	
 	public static void main(String[] args) {
 		MapGraph graph = new MapGraph();
+		Utils.getConnection();
 		LoginUI ui = new LoginUI();
 	}
 	

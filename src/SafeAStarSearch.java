@@ -34,6 +34,7 @@ public class SafeAStarSearch {
     		return new ArrayList<>();
     	
     	mg.initCosts();
+    	mg.loadReputation();
     	frontier.clear();
     	explored.clear();
     	

@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,12 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class PedestrianEvalDialog extends JDialog {
 	
@@ -33,7 +37,8 @@ public class PedestrianEvalDialog extends JDialog {
 	
 	private JPanel infoPane = null;
 	private JLabel wayInfo = null;
-	private JTextField evaluateInput = null;
+	private JRadioButton[] scoreButtons = new JRadioButton[5];
+	private JPanel evalPane = null;
 	private JButton evaluateBtn = null;
 	
 	public PedestrianEvalDialog(JFrame frame, String title, MapGraph mg, double scaleRatio) {
@@ -44,10 +49,14 @@ public class PedestrianEvalDialog extends JDialog {
 		add(mp,BorderLayout.CENTER);
 
 		infoPane = new JPanel();
-		infoPane.setBackground(Color.LIGHT_GRAY);
-		
 		wayInfo = new JLabel();
-		evaluateInput = new JTextField(3);
+
+		evalPane = new JPanel();
+		ButtonGroup scoreGroup = new ButtonGroup();
+		for(int i=0; i<5; i++) {
+			scoreButtons[i] = new JRadioButton((i+1) + "점");
+			scoreGroup.add(scoreButtons[i]);
+		}
 		evaluateBtn = new JButton("평가하기");
 		
 		evaluateBtn.addActionListener(new ActionListener() {
@@ -55,9 +64,9 @@ public class PedestrianEvalDialog extends JDialog {
 				String v1 = selectedEdge.getAdjacentNode(0);
 				String v2 = selectedEdge.getAdjacentNode(1);
 				if(v1.compareTo(v2)<0)
-					Utils.saveReputation(Integer.parseInt(v1), Integer.parseInt(v2), Integer.parseInt(evaluateInput.getText()));
+					Utils.saveReputation(Integer.parseInt(v1), Integer.parseInt(v2), getSelectedScore());
 				else
-					Utils.saveReputation(Integer.parseInt(v2), Integer.parseInt(v1), Integer.parseInt(evaluateInput.getText()));
+					Utils.saveReputation(Integer.parseInt(v2), Integer.parseInt(v1), getSelectedScore());
 				selectEdge(null);
 				updateWayInfo();
 				selectedVertex.clear();
@@ -66,12 +75,13 @@ public class PedestrianEvalDialog extends JDialog {
 			}
 		});
 		
-		evaluateInput.setVisible(false);
-		evaluateBtn.setVisible(false);
-		
 		infoPane.add(wayInfo);
-		infoPane.add(evaluateInput);
-		infoPane.add(evaluateBtn);
+		for(int i=0; i<5; i++) {
+			evalPane.add(scoreButtons[i]);
+		}
+		evalPane.add(evaluateBtn);
+		infoPane.add(evalPane);
+		infoPane.setVisible(false);
 		
 		add(infoPane,BorderLayout.SOUTH);
 		
@@ -203,9 +213,7 @@ public class PedestrianEvalDialog extends JDialog {
 	public void updateWayInfo() {
 		if(selectedEdge == null) {
 			wayInfo.setText("");
-			evaluateInput.setText("");
-			evaluateInput.setVisible(false);
-			evaluateBtn.setVisible(false);
+			infoPane.setVisible(false);
 		}
 		else {
 			double averageReput;
@@ -216,8 +224,7 @@ public class PedestrianEvalDialog extends JDialog {
 			else
 				averageReput = Utils.getAverageReputation(v2, v1);
 			wayInfo.setText("<html>" + selectedEdge.toString().replace("\n","<br/>") + "<br/>Average Reputation : " + averageReput + "</html>");
-			evaluateInput.setVisible(true);
-			evaluateBtn.setVisible(true);
+			infoPane.setVisible(true);
 		}
 	}
 	
@@ -231,5 +238,13 @@ public class PedestrianEvalDialog extends JDialog {
 	
 	public MapGraph.MapEdge getSelectedEdge() {
 		return selectedEdge;
+	}
+	
+	public int getSelectedScore() {
+		for(int i=0; i<scoreButtons.length; i++) {
+			if(scoreButtons[i].isSelected())
+				return i+1;
+		}
+		return 0;
 	}
 }
