@@ -36,6 +36,11 @@ public class SettingsDialog extends JDialog {
 		importanceSet.setFont(new Font("",Font.BOLD,20));
 		settingsPanel.add(importanceSet);
 		settingsPanel.add(new JPanel());
+
+		JLabel markReputation = new JLabel("사용자 평판 : 최대값 - 평판이 1점 줄어들 때마다 안전거리 100m 추가");	
+		JSlider slideReputation = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getReputationImp());
+		settingsPanel.add(markReputation);
+		settingsPanel.add(slideReputation);
 		
 		JLabel markCCTV = new JLabel("CCTV : 최대값 - CCTV 범위(20m) 내에 들어오지 않는 길 2m당 안전거리 1m 추가");	
 		JSlider slideCCTV = new JSlider(JSlider.HORIZONTAL,0,100,Settings.getCctvImp());
@@ -111,6 +116,7 @@ public class SettingsDialog extends JDialog {
 		setBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Settings.setDisplayMode((seeVertices.isSelected()?1:0)+(seeEdges.isSelected()?2:0)+(seeNames.isSelected()?4:0));
+				Settings.setReputationImp(slideReputation.getValue());
 				Settings.setCctvImp(slideCCTV.getValue());
 				Settings.setShelterImp(slideShelter.getValue());
 				Settings.setConvenienceImp(slideConv.getValue());
@@ -151,7 +157,7 @@ public class SettingsDialog extends JDialog {
 		
 		add(scPanel, BorderLayout.SOUTH);
 		
-		setSize(750,600);
+		setSize(750,650);
 		setLocationByPlatform(true);
 		setModalityType(DEFAULT_MODALITY_TYPE);
 		setResizable(false);

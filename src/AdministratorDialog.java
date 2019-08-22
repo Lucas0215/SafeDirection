@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -21,6 +23,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.w3c.dom.NodeList;
 
 public class AdministratorDialog extends JDialog {
 	
@@ -59,6 +63,16 @@ public class AdministratorDialog extends JDialog {
 			editPane.add(editInputs[i]);
 		}
 		setBtn = new JButton("¼³Á¤");
+		setBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateEdgeAttrs();
+				selectEdge(null);
+				updateWayInfo();
+				selectedVertex.clear();
+				highlightedVertex.clear();
+				repaint();
+			}
+		});
 		
 		editPane.setVisible(false);
 		setBtn.setVisible(false);
@@ -217,5 +231,17 @@ public class AdministratorDialog extends JDialog {
 	
 	public MapGraph.MapEdge getSelectedEdge() {
 		return selectedEdge;
+	}
+	
+	public void updateEdgeAttrs() {
+		double newLength = Double.parseDouble(editInputs[0].getText());
+		double newWidth = Double.parseDouble(editInputs[1].getText());
+		int newCctv = Integer.parseInt(editInputs[2].getText());
+		int newShelter = Integer.parseInt(editInputs[3].getText());
+		int newConv = Integer.parseInt(editInputs[4].getText());
+		double newBright = Double.parseDouble(editInputs[5].getText());
+		int newAdult = Integer.parseInt(editInputs[6].getText());
+		int newConst = Integer.parseInt(editInputs[7].getText());
+		selectedEdge.update(newLength, newCctv, newShelter, newConv, newWidth, newBright, newAdult, newConst);
 	}
 }

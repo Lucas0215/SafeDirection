@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,9 +37,26 @@ public class SafeDirectionGUI extends JFrame {
 		
 		setTitle("안전길찾기 ver1.0");
 		mg = graph;
-		
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent windowEvent) {
+				Utils.saveSetting(Settings.getCctvImp(), Settings.getShelterImp(), Settings.getConvenienceImp(),
+						Settings.getWidthImp(), Settings.getBrightnessImp(), Settings.getAdultEntImp(),
+						Settings.getConstructionImp(), Settings.getReputationImp());
+			}
+		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300,30);
+		
+		Settings.setCctvImp(settingData[0]);
+		Settings.setShelterImp(settingData[1]);
+		Settings.setConvenienceImp(settingData[2]);
+		Settings.setWidthImp(settingData[3]);
+		Settings.setBrightnessImp(settingData[4]);
+		Settings.setAdultEntImp(settingData[5]);
+		Settings.setConstructionImp(settingData[6]);
+		Settings.setReputationImp(settingData[7]);
 		
 		Container topPane = getContentPane();
 		

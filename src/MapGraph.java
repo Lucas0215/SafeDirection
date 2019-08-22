@@ -83,15 +83,13 @@ public class MapGraph {
 		private double averageWidth;
 		private double averageBrightness;
 		
-		private int userScore;
-		
 		//Dangerous-element
 		private int adultEntNum;
 		private int constructionNum;
 		
 		public MapEdge(String[] adjacentNodes, double length, int cctvNum, int shelterNum,
 				int convenienceNum, double averageWidth, double averageBrightness, int adultEntNum,
-				int constructionNum, int userScore) {
+				int constructionNum) {
 			this.adjacentNodes = adjacentNodes;
 			this.length = length;
 			this.cctvNum = cctvNum;
@@ -100,8 +98,20 @@ public class MapGraph {
 			this.averageWidth = averageWidth;
 			this.averageBrightness = averageBrightness;
 			this.adultEntNum = adultEntNum;
-			this.constructionNum = constructionNum;;
-			this.userScore = userScore;
+			this.constructionNum = constructionNum;
+		}
+		
+		public void update(double length, int cctvNum, int shelterNum,
+				int convenienceNum, double averageWidth, double averageBrightness, int adultEntNum,
+				int constructionNum) {
+			this.length = length;
+			this.cctvNum = cctvNum;
+			this.shelterNum = shelterNum;
+			this.convenienceNum = convenienceNum;
+			this.averageWidth = averageWidth;
+			this.averageBrightness = averageBrightness;
+			this.adultEntNum = adultEntNum;
+			this.constructionNum = constructionNum;
 		}
 		
 		public String getAdjacentNode(int index) {
@@ -155,8 +165,8 @@ public class MapGraph {
 	}
 	public void addEdge(String[] adjacentNodes, double length, int cctvNum, int shelterNum,
 			int convenienceNum, double averageWidth, double averageBrightness, int adultEntNum,
-			int constructionNum, int userScore) {
-		edges.add(new MapEdge(adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum, userScore));
+			int constructionNum) {
+		edges.add(new MapEdge(adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum));
 	}
 	
 	public void initCosts() {
@@ -212,13 +222,20 @@ public class MapGraph {
 	public double getSafetyCost(MapVertex v, MapVertex u) {
 		MapEdge e = getEdge(v,u);
 		if(e!=null) {
-			return Settings.getCctvImp() * ((e.length - e.cctvNum * 20)>0?(e.length - e.cctvNum * 20):0) * 0.5
+			double reputation;
+			if(v.getId().compareTo(u.getId())>0)
+				reputation = Utils.getAverageReputation(u.getId(), v.getId());
+			else
+				reputation = Utils.getAverageReputation(v.getId(), u.getId());
+			return Settings.getReputationImp() * (5-reputation)
+			+ Settings.getCctvImp() * ((e.length - e.cctvNum * 20)>0?(e.length - e.cctvNum * 20):0) * 0.5
 			+ Settings.getShelterImp() * ((e.length - e.shelterNum * 50)>0?(e.length - e.shelterNum * 50):0) * 0.5
 			+ Settings.getConvenienceImp() * ((e.length - e.convenienceNum * 50)>0?(e.length - e.convenienceNum * 50):0) * 0.5
 			+ Settings.getWidthImp() * (e.averageWidth > 10 ? 0 : (10 - e.averageWidth)) * e.length * 0.01
 			+ Settings.getBrightnessImp() * (1 - e.averageBrightness) * e.length * 0.02
 			+ Settings.getAdultEntImp() * e.adultEntNum
 			+ Settings.getConstructionImp() * e.constructionNum * 2;
+			
 		}
 		return 0;
 	}
@@ -284,8 +301,6 @@ public class MapGraph {
 			double averageWidth=0;
 			double averageBrightness=0;
 			
-			int userScore=0;
-			
 			int adultEntNum=0;
 			int constructionNum=0;
 			
@@ -323,7 +338,7 @@ public class MapGraph {
 					constructionNum = Integer.parseInt(snode.getFirstChild().getTextContent());
 				}
 			}
-			MapEdge me = new MapEdge(adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum, userScore);
+			MapEdge me = new MapEdge(adjacentNodes, length, cctvNum, shelterNum, convenienceNum, averageWidth, averageBrightness, adultEntNum, constructionNum);
 			addEdge(me);
 			
 		}

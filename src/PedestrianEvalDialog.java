@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -47,6 +49,22 @@ public class PedestrianEvalDialog extends JDialog {
 		wayInfo = new JLabel();
 		evaluateInput = new JTextField(3);
 		evaluateBtn = new JButton("평가하기");
+		
+		evaluateBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String v1 = selectedEdge.getAdjacentNode(0);
+				String v2 = selectedEdge.getAdjacentNode(1);
+				if(v1.compareTo(v2)<0)
+					Utils.saveReputation(Integer.parseInt(v1), Integer.parseInt(v2), Integer.parseInt(evaluateInput.getText()));
+				else
+					Utils.saveReputation(Integer.parseInt(v2), Integer.parseInt(v1), Integer.parseInt(evaluateInput.getText()));
+				selectEdge(null);
+				updateWayInfo();
+				selectedVertex.clear();
+				highlightedVertex.clear();
+				repaint();
+			}
+		});
 		
 		evaluateInput.setVisible(false);
 		evaluateBtn.setVisible(false);
@@ -185,11 +203,19 @@ public class PedestrianEvalDialog extends JDialog {
 	public void updateWayInfo() {
 		if(selectedEdge == null) {
 			wayInfo.setText("");
+			evaluateInput.setText("");
 			evaluateInput.setVisible(false);
 			evaluateBtn.setVisible(false);
 		}
 		else {
-			wayInfo.setText("<html>" + selectedEdge.toString().replace("\n","<br/>") + "</html>");
+			double averageReput;
+			String v1 = selectedEdge.getAdjacentNode(0);
+			String v2 = selectedEdge.getAdjacentNode(1);
+			if(v1.compareTo(v2)<0)
+				averageReput = Utils.getAverageReputation(v1, v2);
+			else
+				averageReput = Utils.getAverageReputation(v2, v1);
+			wayInfo.setText("<html>" + selectedEdge.toString().replace("\n","<br/>") + "<br/>Average Reputation : " + averageReput + "</html>");
 			evaluateInput.setVisible(true);
 			evaluateBtn.setVisible(true);
 		}
