@@ -192,7 +192,15 @@ public class SafeDirectionGUI extends JFrame {
 				h = (int) (mapImage.getHeight(null)*scaleRatio);
 				g.drawImage(mapImage,0,0,w,h,null);
 				Graphics2D g2 = (Graphics2D) g;
+
+				g2.setStroke(new BasicStroke(3));
+				g.setColor(new Color(0,120,0,255));
+				for(int[] cctvs : mg.getRealCCTVList()) {
+					g.drawOval((int)(cctvs[0]*scaleRatio)-6, (int)(cctvs[1]*scaleRatio)-6, 12, 12);
+				}
+				
 				g2.setStroke(new BasicStroke(pathIsFound()?3:1));
+				
 				if(Settings.getDisplayMode()==0) {
 					g.setColor(new Color(0,0,0,0));
 				}
@@ -258,7 +266,6 @@ public class SafeDirectionGUI extends JFrame {
 	
 	public static void main(String[] args) {
 		MapGraph graph = new MapGraph();
-		Utils.getConnection();
 		LoginUI ui = new LoginUI();
 	}
 	

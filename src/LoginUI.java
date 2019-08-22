@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 class LoginUI extends JFrame {
    TextField IDBox = new TextField(30);
    TextField passwordBox = new TextField(30);
+   int maxLoginCount = 0;
 
    public LoginUI() {
       setTitle("안전 길찾기 ver1.0");
@@ -64,20 +65,28 @@ class LoginUI extends JFrame {
       setSize(500, 300);
       setResizable(false);
       setVisible(true);
-   }
+	}
 
-   private void login() {
-      String ID = Utils.safeInput(IDBox.getText());
-      String password = Utils.safeInput(passwordBox.getText());
-      int userSet[] = Utils.findUser(ID, password);
-      if (userSet[0] != -1) {
-         Utils.ID = ID;
-         dispose();
-         MapGraph graph = new MapGraph();
-         new SafeDirectionGUI(graph, userSet);
-      } else
-         JOptionPane.showMessageDialog(null, "아이디와 비밀번호가 다릅니다.");
-   }
+	private void login() {
+		String ID = IDBox.getText();
+		String password = passwordBox.getText();
+		if (maxLoginCount++ == 5) {
+			JOptionPane.showMessageDialog(null, "로그인 횟수가 초과되었습니다.");
+			System.exit(0);
+		}
+
+		if (Utils.isProper(ID, true) && Utils.isProper(password, false)) {
+			int userSet[] = Utils.findUser(ID, password);
+			if (userSet[0] != -1) {
+				Utils.ID = ID;
+				dispose();
+				MapGraph graph = new MapGraph();
+				new SafeDirectionGUI(graph, userSet);
+			} else
+				JOptionPane.showMessageDialog(null, "아이디와 비밀번호가 다릅니다.");
+		} else
+			JOptionPane.showMessageDialog(null, "아이디나 비밀번호가 적절하지 않습니다.");
+	}
 }
 
 class RegisterFrame extends JFrame {
@@ -126,19 +135,26 @@ class RegisterFrame extends JFrame {
       cancelBtn.setBounds(265, 250, 245, 40);
       registerBtn.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            String ID = Utils.safeInput(IDBox.getText());
-            String password = Utils.safeInput(passwordBox.getText());
-            if (ID.length() > 15 || ID.length() < 10)
-               JOptionPane.showMessageDialog(container, "ID는 10에서 15자리의 문자열이어야 합니다.");
-            else if (password.length() > 15 || password.length() < 10)
-               JOptionPane.showMessageDialog(container, "비밀번호는 10에서 15자리의 문자열이어야 합니다.");
-            else if (password.equals(passwordConfirmBox.getText())) {
-               if (Utils.addUser(container, ID, password)) {
-                  JOptionPane.showMessageDialog(container, "회원가입 성공!");
-                  dispose();
-               }
-            } else
-               JOptionPane.showMessageDialog(container, "똑같은 비밀번호를 입력해주세요.");
+            String ID = IDBox.getText();
+            String password = passwordBox.getText();
+
+            if (Utils.isProper(ID, true) && Utils.isProper(password, false)) {
+               if (ID.length() > 15 || ID.length() < 10)
+                  JOptionPane.showMessageDialog(container, "ID는 10에서 15자리의 문자열이어야 합니다.");
+               else if (password.length() > 15 || password.length() < 10)
+                  JOptionPane.showMessageDialog(container, "비밀번호는 10에서 15자리의 문자열이어야 합니다.");
+               else if (password.equals(passwordConfirmBox.getText())) {
+                  if (Utils.addUser(container, ID, password)) {
+                     JOptionPane.showMessageDialog(container, "회원가입 성공!");
+                     dispose();
+                  }
+               } else
+                  JOptionPane.showMessageDialog(container, "똑같은 비밀번호를 입력해주세요.");
+            } else if (Utils.isProper(ID, true))
+               JOptionPane.showMessageDialog(container, "비밀번호로 사용할 수 없는 문자가 포함되어 있습니다.");
+            else
+               JOptionPane.showMessageDialog(container, "아이디로 사용할 수 없는 문자가 포함되어 있습니다.");
+
          }
       });
       cancelBtn.addActionListener(new ActionListener() {

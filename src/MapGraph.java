@@ -130,20 +130,33 @@ public class MapGraph {
 		
 		@Override
 		public String toString() {
-			return "Edge"+"\n"+"\tNodes : "+adjacentNodes[0]+"-"+adjacentNodes[1]+"\n"+"\tLength : "
-					+length+"\n"+"\tWidth : "+averageWidth+"\n"+"\tCCTV : "+cctvNum+"\n"+"\tShelter : "+shelterNum+"\n"+"\tConvenience Store : "
-					+convenienceNum+"\n"+"\tBrightness : "+averageBrightness+"\n"+"\tAdult Entertainment : "+adultEntNum
-					+"\n"+"\tUnder Construction : "+constructionNum;
+			return "Edge" + "\n" + "\tNodes : " + adjacentNodes[0] + "-" + adjacentNodes[1] + "\n" + "\tLength : "
+					+ length + "\n" + "\tWidth : " + averageWidth + "\n" + "\tCCTV : " + cctvNum + "\n" + "\tShelter : "
+					+ shelterNum + "\n" + "\tConvenience Store : " + convenienceNum + "\n" + "\tBrightness : "
+					+ averageBrightness + "\n" + "\tAdult Entertainment : " + adultEntNum + "\n"
+					+ "\tUnder Construction : " + constructionNum;
+		}
+
+		public double[] getInfo() {
+			double[] info = { length, averageWidth, cctvNum, shelterNum, convenienceNum, averageBrightness, adultEntNum,
+					constructionNum };
+			return info;
 		}
 	}
 	
 	private Set<MapVertex> vertices = new HashSet<>();
 	private Set<MapEdge> edges = new HashSet<>();
 	private ArrayList<int[]> reput = new ArrayList<>();
+	private ArrayList<int[]> cctvCoords = new ArrayList<>();
 	
 	public MapGraph() {
 		MapXMLParser xmlParser = new MapXMLParser();
 		nodeList2Graph(xmlParser.parseVertices(), xmlParser.parseEdges());
+		cctvCoords = CctvOpenAPI.getCCTVCoordInMap();
+	}
+	
+	public ArrayList<int[]> getRealCCTVList() {
+		return cctvCoords;
 	}
 	
 	public void loadReputation() {
@@ -196,6 +209,7 @@ public class MapGraph {
 			v.predecessor = null;
 			v.cost = Double.MAX_VALUE;
 			v.heuristic = Double.MAX_VALUE;
+			if(v.getId()==null) return;
 		}
 	}
 
