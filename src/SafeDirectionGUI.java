@@ -135,7 +135,7 @@ public class SafeDirectionGUI extends JFrame {
 		
 		topPane.add(controlPane,BorderLayout.SOUTH);
 		
-		setSize(540,700);
+		setSize(515,695);
 		setLocationByPlatform(true);
 		setVisible(true);
 		setResizable(false);
@@ -180,7 +180,7 @@ public class SafeDirectionGUI extends JFrame {
 			try {
 				mapImage = ImageIO.read(is);
 			} catch (IOException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 			}
 		}
 		
@@ -264,11 +264,6 @@ public class SafeDirectionGUI extends JFrame {
 		}
 	}
 	
-	public static void main(String[] args) {
-		MapGraph graph = new MapGraph();
-		LoginUI ui = new LoginUI();
-	}
-	
 	public boolean pathIsFound() {
 		return pathFound;
 	}
@@ -276,5 +271,8 @@ public class SafeDirectionGUI extends JFrame {
 	public void updatePathFound(boolean newPathFound) {
 		this.pathFound = newPathFound;
 	}
-	
+
+	public static void main(String[] args) {
+		new LoginUI();
+	}
 }

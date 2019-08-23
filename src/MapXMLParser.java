@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,13 +30,13 @@ public class MapXMLParser {
 		
 		return vertices;
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (SAXException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (XPathExpressionException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		}
 		return null;
 	}
@@ -54,13 +55,13 @@ public class MapXMLParser {
 		
 		return edges;
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (SAXException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (XPathExpressionException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		}
 		return null;
 	}

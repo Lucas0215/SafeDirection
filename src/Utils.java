@@ -1,4 +1,7 @@
 import java.awt.Container;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -12,10 +15,6 @@ public class Utils {
 
 	private static Connection con = null;
 	private static Statement stmt = null;
-
-	public static String safeInput(String string) {
-		return string;
-	}
 
 	public static boolean isProper(String string, boolean type) {
 		Pattern IDPattern = Pattern.compile("^[a-zA-Z0-9]*$");
@@ -36,11 +35,70 @@ public class Utils {
 		}
 	}
 
+	public static void delUsers() {
+		try {
+			CryptoUtil cu = new CryptoUtil();
+			String user = "guest";
+			String password = cu.getDBPassword();
+			String url = "jdbc:mysql://20.41.79.154:3306/user_info?serverTimezone=UTC";
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection(url, user, password);
+			stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM user WHERE ID!='administrator'");
+			JOptionPane.showMessageDialog(null, "초기화 되었습니다");
+
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
+			}
+		}
+	}
+	
+	public static void delReputs() {
+		try {
+			CryptoUtil cu = new CryptoUtil();
+			String user = "guest";
+			String password = cu.getDBPassword();
+			String url = "jdbc:mysql://20.41.79.154:3306/user_info?serverTimezone=UTC";
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection(url, user, password);
+			stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM user_reput");
+			JOptionPane.showMessageDialog(null, "초기화 되었습니다");
+
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
+			}
+		}
+	}
+	
 	public static void saveSetting(int cctvImp, int shelterImp, int convenienceImp, int widthImp, int brightnessImp,
 			int adultEntImp, int constructionImp, int reputationImp) {
 		try {
+			CryptoUtil cu = new CryptoUtil();
 			String user = "guest";
-			String password = "a1234567";
+			String password = cu.getDBPassword();
 			String url = "jdbc:mysql://20.41.79.154:3306/user_info?serverTimezone=UTC";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, password);
@@ -56,7 +114,9 @@ public class Utils {
 			stmt.executeUpdate("UPDATE user SET reputationImp = " + reputationImp + " WHERE ID = '" + ID + "'");
 
 		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} finally {
 			try {
 				if (stmt != null)
@@ -64,6 +124,7 @@ public class Utils {
 				if (con != null)
 					con.close();
 			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 			}
 		}
 	}
@@ -73,20 +134,23 @@ public class Utils {
 		ResultSet rs = null;
 
 		try {
+			CryptoUtil cu = new CryptoUtil();
 			String user = "guest";
-			String dbPassword = "a1234567";
+			String dbPassword = cu.getDBPassword();
 			String url = "jdbc:mysql://20.41.79.154:3306/user_info?serverTimezone=UTC";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, dbPassword);
 			stmt = con.createStatement();
 
-			rs = stmt.executeQuery("SELECT * FROM user WHERE ID = '" + ID + "' AND password = '" + password + "'");
+			rs = stmt.executeQuery("SELECT * FROM user WHERE ID = '" + ID + "' AND password = '" + cu.getHash(password) + "'");
 			if (rs.next())
 				for (int i = 0; i < 8; i++)
 					result[i] = Integer.parseInt(rs.getString(i + 3));
 
 		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} finally {
 			try {
 				if (rs != null)
@@ -96,6 +160,7 @@ public class Utils {
 				if (con != null)
 					con.close();
 			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 			}
 		}
 
@@ -107,8 +172,9 @@ public class Utils {
 		boolean result = true;
 
 		try {
+			CryptoUtil cu = new CryptoUtil();
 			String user = "guest";
-			String dbPassword = "a1234567";
+			String dbPassword = cu.getDBPassword();
 			String url = "jdbc:mysql://20.41.79.154:3306/user_info?serverTimezone=UTC";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, dbPassword);
@@ -116,14 +182,16 @@ public class Utils {
 
 			rs = stmt.executeQuery("SELECT * FROM user WHERE ID = '" + ID + "'");
 			if (!rs.next())
-				stmt.executeUpdate("INSERT INTO user (ID, password) VALUES ('" + ID + "', '" + password + "');");
+				stmt.executeUpdate("INSERT INTO user (ID, password) VALUES ('" + ID + "', '" + cu.getHash(password) + "');");
 			else {
 				JOptionPane.showMessageDialog(container, "동일한 아이디가 있습니다.");
 				result = false;
 			}
 
 		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(container, "알 수 없는 오류가 발생했습니다.");
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(container, "알 수 없는 오류가 발생했습니다.");
 		} finally {
 			try {
 				if (rs != null)
@@ -133,6 +201,7 @@ public class Utils {
 				if (con != null)
 					con.close();
 			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(container, "알 수 없는 오류가 발생했습니다.");
 			}
 		}
 
@@ -143,8 +212,9 @@ public class Utils {
 		ResultSet rs = null;
 
 		try {
+			CryptoUtil cu = new CryptoUtil();
 			String user = "guest";
-			String password = "a1234567";
+			String password = cu.getDBPassword();
 			String url = "jdbc:mysql://20.41.79.154:3306/user_info?serverTimezone=UTC";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, password);
@@ -160,16 +230,19 @@ public class Utils {
 						+ node1ID + ", " + node2ID + ", " + starPoint + ")");
 
 		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} finally {
 			try {
-				if (con != null) {
+				if (rs != null)
 					rs.close();
+				if (stmt != null)
 					stmt.close();
+				if (con != null)
 					con.close();
-				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 			}
 		}
 	}
@@ -178,8 +251,9 @@ public class Utils {
 		ArrayList<int[]> reputList = new ArrayList<>();
 		ResultSet rs = null;
 		try {
+			CryptoUtil cu = new CryptoUtil();
 			String user = "guest";
-			String password = "a1234567";
+			String password = cu.getDBPassword();
 			String url = "jdbc:mysql://20.41.79.154:3306/user_info?serverTimezone=UTC";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, password);
@@ -194,7 +268,9 @@ public class Utils {
 			}
 
 		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} finally {
 			try {
 				if (rs != null)
@@ -204,6 +280,7 @@ public class Utils {
 				if (con != null)
 					con.close();
 			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 			}
 		}
 		return reputList;
@@ -215,8 +292,9 @@ public class Utils {
 		ResultSet rs = null;
 
 		try {
+			CryptoUtil cu = new CryptoUtil();
 			String user = "guest";
-			String password = "a1234567";
+			String password = cu.getDBPassword();
 			String url = "jdbc:mysql://20.41.79.154:3306/user_info?serverTimezone=UTC";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, password);
@@ -234,7 +312,9 @@ public class Utils {
 				return sum / (double) count;
 
 		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} finally {
 			try {
 				if (rs != null)
@@ -244,9 +324,20 @@ public class Utils {
 				if (con != null)
 					con.close();
 			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 			}
 		}
 
 		return 5;
 	}
+
+	public static boolean isComplicate(String password) {
+		Pattern complicatePattern = Pattern.compile("[a-zA-Z0-9]*[~`!@#$%\\^&*()_-]+[a-zA-Z0-9]*");
+		Matcher complicatePassword = complicatePattern.matcher(password);
+		if (complicatePassword.find())
+			return true;
+		else
+			return false;
+	}
+
 }

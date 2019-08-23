@@ -20,8 +20,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class AdministratorDialog extends JDialog {
 	
@@ -42,8 +44,28 @@ public class AdministratorDialog extends JDialog {
 		super(frame, title);
 		this.mg = mg;
 		this.scaleRatio = scaleRatio;
+		
+		JPanel dbControlPane = new JPanel();
+		dbControlPane.setBorder(new EmptyBorder(10,10,10,10));
+		dbControlPane.setLayout(new GridLayout(1,2));
+		JButton dbUserDelBtn = new JButton("유저 데이터베이스 초기화");
+		JButton dbReputDelBtn = new JButton("평판 데이터베이스 초기화");
+		dbUserDelBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Utils.delUsers();
+			}
+		});
+		dbReputDelBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Utils.delReputs();
+			}
+		});
+		dbControlPane.add(dbUserDelBtn);
+		dbControlPane.add(dbReputDelBtn);
+		
 		MapPanel mp = new MapPanel();
 		add(mp,BorderLayout.CENTER);
+		add(dbControlPane, BorderLayout.NORTH);
 
 		infoPane = new JPanel();
 		infoPane.setBackground(Color.LIGHT_GRAY);
@@ -80,7 +102,7 @@ public class AdministratorDialog extends JDialog {
 		
 		add(infoPane,BorderLayout.SOUTH);
 		
-		setSize(540,700);
+		setSize(515,695);
 		setLocationByPlatform(true);
 		setModalityType(DEFAULT_MODALITY_TYPE);
 		setResizable(false);
@@ -151,7 +173,7 @@ public class AdministratorDialog extends JDialog {
 			try {
 				mapImage = ImageIO.read(is);
 			} catch (IOException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 			}
 		}
 		

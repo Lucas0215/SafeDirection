@@ -1,16 +1,17 @@
 
 public class Settings {
-	private static int displayMode=0;
-	private static int reputationImp=0;
-	private static int cctvImp=0;
-	private static int shelterImp=0;
-	private static int convenienceImp=0;
-	private static int widthImp=0;
-	private static int brightnessImp=0;
-	private static int adultEntImp=0;
-	private static int constructionImp=0;
-	
-	public static void update(int displayMode, int reputationImp, int cctvImp, int shelterImp, int convenienceImp, int widthImp, int brightnessImp, int adultEntImp, int constructionImp) {
+	private static int displayMode = 0;
+	private static int reputationImp = 0;
+	private static int cctvImp = 0;
+	private static int shelterImp = 0;
+	private static int convenienceImp = 0;
+	private static int widthImp = 0;
+	private static int brightnessImp = 0;
+	private static int adultEntImp = 0;
+	private static int constructionImp = 0;
+
+	public static void update(int displayMode, int reputationImp, int cctvImp, int shelterImp, int convenienceImp,
+			int widthImp, int brightnessImp, int adultEntImp, int constructionImp) {
 		Settings.setDisplayMode(displayMode);
 		Settings.setReputationImp(reputationImp);
 		Settings.setCctvImp(cctvImp);
@@ -37,7 +38,7 @@ public class Settings {
 	public static void setReputationImp(int reputationImp) {
 		Settings.reputationImp = reputationImp;
 	}
-	
+
 	public static int getCctvImp() {
 		return cctvImp;
 	}

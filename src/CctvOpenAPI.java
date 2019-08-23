@@ -5,18 +5,20 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 public class CctvOpenAPI {
-	
+
 	final public static double latLowerBound = 37.5829796;
 	final public static double latUpperBound = 37.5852749;
 
 	final public static double longLowerBound = 127.0285901;
 	final public static double longUpperBound = 127.031081;
-	
+
 	final public static double toWidth = 686;
 	final public static double toHeight = 775;
 
@@ -35,21 +37,24 @@ public class CctvOpenAPI {
 					continue;
 				double latitude = Double.parseDouble(csvRecord.get(10));
 				double longtitude = Double.parseDouble(csvRecord.get(11));
-				if(latitude>=latLowerBound && latitude<=latUpperBound && longtitude>=longLowerBound && longtitude<=longUpperBound) {
+				if (latitude >= latLowerBound && latitude <= latUpperBound && longtitude >= longLowerBound
+						&& longtitude <= longUpperBound) {
 					int[] coord = new int[2];
-					coord[0] = (int)Math.floor(toHeight - (latitude-latLowerBound)*toHeight/(latUpperBound-latLowerBound));
-					coord[1] = (int)Math.floor((longtitude-longLowerBound)*toWidth/(longUpperBound-longLowerBound));
+					coord[0] = (int) Math
+							.floor(toHeight - (latitude - latLowerBound) * toHeight / (latUpperBound - latLowerBound));
+					coord[1] = (int) Math
+							.floor((longtitude - longLowerBound) * toWidth / (longUpperBound - longLowerBound));
 					cctvList.add(coord);
 				}
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 		} finally {
 			try {
 				if (is != null)
 					is.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "알 수 없는 오류가 발생했습니다.");
 			}
 		}
 		return cctvList;
