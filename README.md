@@ -61,7 +61,7 @@
 	안전길찾기 프로토타입에 사용되는 더미 지도 데이터는 map_data.xml로 저장했으며, 구조는 대략 다음과 같다.
 </p>
 
-'''
+```
 <?xml version="1.0" encoding="euc-kr"?>
 <map>
 	<nodeSet>
@@ -94,7 +94,7 @@
 		</edge>
 	</edgeSet>
 </map>
-'''
+```
 
 <h3>알고리즘 Java 구현</h3>
 
@@ -102,7 +102,7 @@
 	안전길찾기에서 사용되는 A* 알고리즘은 다음과 같이 Java 코드로 구현하였다. MapGraph 클래스는 map_data.xml파일을 파싱하고, 지도 그래프의 노드와 간선을 관리하는 클래스이다.
 </p>
 
-'''
+```
 public List<MapGraph.MapVertex> AStarSearch(String startId, String endId, boolean safetyMode) {
 
     MapGraph.MapVertex startv = mg.findVertexById(startId);
@@ -156,13 +156,13 @@ public List<MapGraph.MapVertex> AStarSearch(String startId, String endId, boolea
     	}
     }
 }
-'''
+```
 
 <p>
 	길의 안전/위험 요소들을 거리 단위로 바꿔주는 MapGraph 클래스의 getSafetyCost(v,u)메소드는 다음과 같이 정의된다. 단위 변환 규칙은 이후 인터페이스 설명하는 부분에 나온다.
 </p>
 
-{% highlight java %}
+```
 public double getSafetyCost(MapVertex v, MapVertex u) {
 	MapEdge e = getEdge(v, u);
 	if (e != null) {
@@ -183,7 +183,7 @@ public double getSafetyCost(MapVertex v, MapVertex u) {
 	}
 	return 0;
 }
-{% endhighlight %}
+```
 
 <h3>데이터베이스 및 인터페이스 구축</h3>
 
