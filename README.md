@@ -40,41 +40,7 @@
 <h3>알고리즘</h3>
 
 <p>
-	A* Search 알고리즘은 다익스트라(Dijkstra) 알고리즘과 매우 유사하지만, 경로 비용 대신에 휴리스틱(heuristics)을 사용해 탐색 공간을 줄인다는 점에서 다익스트라 알고리즘과 차이가 있다. <br>
-
-\begin{algorithm}
-\caption{Dijkstra's Algorithm}
-\begin{algorithmic}
-\PROCEDURE{Dijkstra}{$G, s, e$}
-	\STATE initialize $cost[v], \forall v \in G(V)$
-	\STATE initialize $predecessor[v], \forall v \in G(V)$
-	\STATE create a vertex priority queue $Frontier$
-	\STATE create a vertex set $Explored$
-	\STATE $cost[s] \gets 0$
-	\STATE $Frontier.add(s)$ with priority $cost[s]$
-	\WHILE{$\neg Frontier.is$-$empty()$}
-        \STATE $v \gets Frontier.extract$-$min()$
-		\IF{$v = e$}
-			\RETURN $construct$-$path(e)$
-		\ENDIF
-		\STATE add $v$ to $Explored$
-        \FOR{$u \in N(v)$}
-			\STATE $alt \gets cost[v]+w[u,v]$
-			\IF{$u \notin Frontier \land u \notin Explored$}
-				\STATE $Frontier.add(u)$ with priority $alt$
-				\STATE $predecessor[u] \gets v$
-			\ELIF{$u \in Frontier \land cost[u]>alt$}
-				\STATE $Frontier.update$-$priority(u, alt)$
-				\STATE $predecessor[u] \gets v$
-			\ENDIF
-		\ENDFOR
-	\ENDWHILE
-	\STATE $failed$ to find the shortest path
-\ENDPROCEDURE
-\end{algorithmic}
-\end{algorithm}
-
-	위 다익스트라 최단 경로 탐색 알고리즘은 간선의 가중치로 정렬되는 우선순위 큐(priority queue)를 이용해 도달하는 데 드는 비용 $cost[n]$이 가장 작은 노드부터 탐색해나간다.
+	A* Search 알고리즘은 다익스트라(Dijkstra) 알고리즘과 매우 유사하지만, 경로 비용 대신에 휴리스틱(heuristics)을 사용해 탐색 공간을 줄인다는 점에서 다익스트라 알고리즘과 차이가 있다.
 	A* 알고리즘은 다익스트라 알고리즘과 같이 우선순위 큐를 이용하지만,
 	도달하는 데 드는 경로 비용 $cost[n]$이 아닌 경로 비용에 휴리스틱 함수의 값이 합쳐진 값, 즉 $f(n) = cost[n] + h(n)$이 가장 작은 노드부터 탐색해나간다.
 	이를 직관적으로 이해해보자면, 노드 $n$을 판단할 때 노드 $n$에 도달하는 최소 비용 $cost[n]$은 이미 주어졌고, 노드 $n$에서 목적지 노드까지 가는 비용은 이론적인 최소값 $h(n)$으로 대충 정한 것이다.
