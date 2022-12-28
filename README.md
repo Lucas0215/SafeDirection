@@ -61,7 +61,7 @@
 	안전길찾기 프로토타입에 사용되는 더미 지도 데이터는 map_data.xml로 저장했으며, 구조는 대략 다음과 같다.
 </p>
 
-{% highlight xml %}
+'''
 <?xml version="1.0" encoding="euc-kr"?>
 <map>
 	<nodeSet>
@@ -94,7 +94,7 @@
 		</edge>
 	</edgeSet>
 </map>
-{% endhighlight %}
+'''
 
 <h3>알고리즘 Java 구현</h3>
 
@@ -102,7 +102,7 @@
 	안전길찾기에서 사용되는 A* 알고리즘은 다음과 같이 Java 코드로 구현하였다. MapGraph 클래스는 map_data.xml파일을 파싱하고, 지도 그래프의 노드와 간선을 관리하는 클래스이다.
 </p>
 
-{% highlight java %}
+'''
 public List<MapGraph.MapVertex> AStarSearch(String startId, String endId, boolean safetyMode) {
 
     MapGraph.MapVertex startv = mg.findVertexById(startId);
@@ -156,7 +156,7 @@ public List<MapGraph.MapVertex> AStarSearch(String startId, String endId, boolea
     	}
     }
 }
-{% endhighlight %}
+'''
 
 <p>
 	길의 안전/위험 요소들을 거리 단위로 바꿔주는 MapGraph 클래스의 getSafetyCost(v,u)메소드는 다음과 같이 정의된다. 단위 변환 규칙은 이후 인터페이스 설명하는 부분에 나온다.
@@ -191,48 +191,14 @@ public double getSafetyCost(MapVertex v, MapVertex u) {
 	대회 주최측에서 Microsoft Azure 클라우드 서비스를 이용할 수 있는 5만원 제한의 Microsoft Azure Pass를 제공해주었고, 이를 이용해 가상머신을 호스팅하고 데이터베이스 서버를 구축했다.
 </p>
 
-<a href="/assets/images/{{page.id}}/azure.png"> <img width="200" height="58"
-	class="center-block img-responsive"
-	src="/assets/images/{{page.id}}/azure.png" alt="Logo of Azure"/></a>
-
 <p>
 	데이터베이스 관리 시스템(DBMS)으로는 관계형 데이터베이스 관리 시스템인 MySQL을 사용했다. 데이터베이스 서버에는 사용자 정보와, 길에 대한 평가 정보가 저장되어 있다.
 </p>
-
-<a href="/assets/images/{{page.id}}/mysql.png"> <img
-	class="center-block img-responsive"
-	src="/assets/images/{{page.id}}/mysql.png" alt="Logo of MySQL"/></a>
 
 <p>
 	인터페이스는 Java로 구현했으며, GUI는 Swing, 데이터베이스 접속은 JDBC, XML을 파싱은 XPath API로 구현했다. 다음은 구현된 인터페이스의 스크린샷 몇 장이다.
 	마지막 스크린샷에서 안전거리 변환 방식을 확인할 수 있다.
 </p>
-
-
-<a href="/assets/images/{{page.id}}/screenshot1.png"> <img
-	class="center-block img-responsive"
-	src="/assets/images/{{page.id}}/screenshot1.png" alt="screenshot1"/></a>
-<p align="center">로그인 UI.</p>
-
-<a href="/assets/images/{{page.id}}/screenshot2.png"> <img
-	class="center-block img-responsive"
-	src="/assets/images/{{page.id}}/screenshot2.png" alt="screenshot2"/></a>
-<p align="center">지도 UI. 안전/위험 요소들은 각각 색상이 다른 원으로 표시했다.</p>
-
-<a href="/assets/images/{{page.id}}/screenshot3.png"> <img
-	class="center-block img-responsive"
-	src="/assets/images/{{page.id}}/screenshot3.png" alt="screenshot3"/></a>
-<p align="center">길찾기를 실행한 모습. 빨간색 실선이 최단 경로, 파란색 실선이 안전을 고려한 최단 경로이다.</p>
-
-<a href="/assets/images/{{page.id}}/screenshot4.png"> <img
-	class="center-block img-responsive"
-	src="/assets/images/{{page.id}}/screenshot4.png" alt="screenshot4"/></a>
-<p align="center">길 안전 평가 UI. 길에 대한 안전도 평가를 내릴 수 있다.</p>
-
-<a href="/assets/images/{{page.id}}/screenshot5.png"> <img
-	class="center-block img-responsive"
-	src="/assets/images/{{page.id}}/screenshot5.png" alt="screenshot5"/></a>
-<p align="center">중요도 설정 UI. 안전거리에 대한 기준을 확인할 수 있다.</p>
 
 <p>
 	우리 팀은 안전길찾기 프로토타입의 최종 발표를 마치고, 한국정보보호학회장상과 스패로우상, 총 두 개의 상을 수상하며 대회를 성공적으로 마쳤다.
