@@ -1,14 +1,4 @@
----
-layout: default
-title: "[SW개발보안경진대회] A* 알고리즘을 이용한 안전길찾기 서비스"
-date: 2020-02-16 10:00:00 +0900
-published: 2020-02-13 10:00:00 +0900
-comments: true
-categories: development
-tags: [contest, secure-coding, software, graph, map, a*, astar, shortest-path, algorithm, secure-coding, pedestrian-safety]
-github: "https://github.com/PnDong/SafeDirection"
-use_math: true
----
+<h1>[SW개발보안경진대회] A* 알고리즘을 이용한 안전길찾기 서비스</h1>
 
 <p>
     현재는 다양한 길찾기 서비스가 있다. 하지만 이런 길찾기 서비스를 이용하는 사용자들은 가는 길에 어떤 위험요소가 있는지 확인하기 힘들고, 확인하더라도 대체 경로를 찾는 것이 쉽지 않다.
@@ -52,7 +42,6 @@ use_math: true
 <p>
 	A* Search 알고리즘은 다익스트라(Dijkstra) 알고리즘과 매우 유사하지만, 경로 비용 대신에 휴리스틱(heuristics)을 사용해 탐색 공간을 줄인다는 점에서 다익스트라 알고리즘과 차이가 있다. <br>
 
-{% include pseudocode.html id="1" code="
 \begin{algorithm}
 \caption{Dijkstra's Algorithm}
 \begin{algorithmic}
@@ -84,7 +73,6 @@ use_math: true
 \ENDPROCEDURE
 \end{algorithmic}
 \end{algorithm}
-" %}
 
 	위 다익스트라 최단 경로 탐색 알고리즘은 간선의 가중치로 정렬되는 우선순위 큐(priority queue)를 이용해 도달하는 데 드는 비용 $cost[n]$이 가장 작은 노드부터 탐색해나간다.
 	A* 알고리즘은 다익스트라 알고리즘과 같이 우선순위 큐를 이용하지만,
