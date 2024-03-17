@@ -1,5 +1,5 @@
 <h1>[제6회 SW개발보안경진대회 장려상&특별상] A* 알고리즘을 이용한 안전길찾기 서비스</h1>
-<h3 style="color: grey;"><a href="https://susunghong.github.io" style="color: grey;">홍수성</a>, <a href="https://github.com/Lucas0215" style="color: grey;">조영민</a></h3>
+<h3><a href="https://susunghong.github.io" style="color: grey;">홍수성</a>, <a href="https://github.com/Lucas0215" style="color: grey;">조영민</a></h3>
 
 <p>
     현재는 다양한 길찾기 서비스가 있다. 하지만 이런 길찾기 서비스를 이용하는 사용자들은 가는 길에 어떤 위험요소가 있는지 확인하기 힘들고, 확인하더라도 대체 경로를 찾는 것이 쉽지 않다.
